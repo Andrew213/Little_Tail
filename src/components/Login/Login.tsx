@@ -3,19 +3,39 @@ import { Form, Input, Button, Typography } from 'antd';
 import cn from 'classnames';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import useAction from '@/hooks/useAction';
-
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { useNavigate } from 'react-router-dom';
+import { ThreeDots } from 'react-loader-spinner';
+import Loader from '@/lib/Loader/Loader';
 import styles from './styles.module.scss';
 
 const Login: React.FC = () => {
     const { GetAuth } = useAction();
 
+    const {
+        Login: { session, isLoading },
+    } = useTypedSelector(state => state);
+
+    const navigate = useNavigate();
+
     const onSuccess = React.useCallback((values: { login: string; password: string }) => {
         const { login, password } = values;
         GetAuth(login, password);
     }, []);
+
+    React.useEffect(() => {
+        if (session) {
+            navigate('/animals');
+        }
+    }, [session]);
+
     const onFail = React.useCallback(values => {
         console.log(`Error `, values);
     }, []);
+
+    if (isLoading) {
+        return <Loader className={styles.loader} />;
+    }
 
     return (
         <div className={styles.login}>

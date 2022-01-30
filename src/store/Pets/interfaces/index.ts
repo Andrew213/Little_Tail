@@ -14,4 +14,4 @@ export interface fetchPetsErrorI {
     errMsg: string;
 }
 
-export type PetsAction = requestPetsI | requestPetsI | fetchPetsErrorI;
+export type PetsAction = requestPetsI | receivePetsI | fetchPetsErrorI;

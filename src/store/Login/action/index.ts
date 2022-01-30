@@ -23,6 +23,7 @@ export const getAuth = (login: string, password: string | number) => {
             const session = await res.json();
             if (!session.statusCode) {
                 dispatch(receiveLoginAC(session.accessToken as string, session.user as userT));
+                localStorage.setItem('access_token', `${session.accessToken}`);
             } else {
                 dispatch(fetchLoginErrorAC('Введены не верные данные'));
             }

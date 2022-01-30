@@ -4,6 +4,7 @@ import { PetsState } from './Pets/PetsState';
 import { TodayState } from './Today/TodayState';
 import { LoginState } from './Login/LoginState';
 import { LoginReducer } from './Login/reducer';
+import { PetsReducer } from './Pets/reducer';
 
 export type RootState = {
     Pets: PetsState;
@@ -12,7 +13,7 @@ export type RootState = {
 };
 
 export const reducers = combineReducers({
-    // Pets: petsReducer,
+    Pets: PetsReducer,
     // Today: todayReducer,
     Login: LoginReducer,
 });
