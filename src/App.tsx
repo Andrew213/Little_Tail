@@ -5,9 +5,20 @@ import Login from './components/Login/Login';
 import Navigation from './components/Navigation/Navigation';
 import Pets from './components/Pets/Pets';
 import Today from './components/Today/Today';
+import useAction from './hooks/useAction';
+import { useTypedSelector } from './hooks/useTypedSelector';
 import './styles/App.scss';
 
 const App: React.FC = () => {
+    const { CheckSession } = useAction();
+
+    const {
+        Session: { session },
+    } = useTypedSelector(state => state);
+
+    React.useEffect(() => {
+        CheckSession();
+    }, []);
     return (
         <>
             <header className="header">
@@ -21,7 +32,7 @@ const App: React.FC = () => {
                     <Layout>
                         <div className="routes">
                             <Routes>
-                                <Route path="/animals" element={<Pets />} />
+                                <Route path="/animals" element={session ? <Pets /> : <Login />} />
                                 {/* const { Login } = useTypedSelector(state => state); */}
 
                                 <Route path="/today" element={<Today />} />

@@ -1,5 +1,5 @@
-import { initState, getAuth } from './Login/action';
+import { checkSession, getAuth } from './Login/action';
 import { getAnimals } from './Pets/actions';
-export const InitState = initState;
+export const CheckSession = checkSession;
 export const GetAuth = getAuth;
 export const GetAnimals = getAnimals;

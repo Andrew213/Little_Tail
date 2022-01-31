@@ -1,15 +1,12 @@
-export type userT = {
-    firstName: string;
-    id: string;
-    lastName: string;
-    login: string;
-    role: string;
-};
+import { userT } from '@/components/types/userType';
 
 export type LoginState = {
-    session: boolean;
     access_token: string;
     isLoading: boolean;
     errMsg: string;
+};
+
+export type SessionState = {
+    session: boolean;
     user: userT | null;
 };

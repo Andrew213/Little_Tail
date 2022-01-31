@@ -1,7 +1,8 @@
+import { PetT } from '@/types/PetType';
 import { fetchPetsErrorI, receivePetsI } from '../../interfaces';
 import { PetsActionType } from '../action-types';
 
-export const receivePetsAC = (petsListing: any[]): receivePetsI => {
+export const receivePetsAC = (petsListing: PetT[]): receivePetsI => {
     return {
         type: PetsActionType.RECEIVE_PETS,
         petsListing,

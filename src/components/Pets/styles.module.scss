@@ -1,0 +1,33 @@
+.pets {
+    // background-color: red;
+    height: 100vh;
+    position: relative;
+    &__pagination {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        align-content: center;
+        left: 50%;
+        transform: translateX(-50%);
+        & a {
+            margin: 0 10px;
+            padding: 2px 5px;
+            background-color: #7347c1;
+            border-radius: 3px;
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+                transition: background-color 0.3s;
+                background-color: #0674ec;
+            }
+        }
+    }
+}
+
+:global {
+    .ant-pagination-item-active {
+        & a {
+            background-color: #0674ec;
+        }
+    }
+}

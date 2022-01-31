@@ -1,5 +1,7 @@
+import { PetT } from '@/types/PetType';
+
 export interface PetsState {
-    petsListing: any[];
+    petsListing: PetT[];
     isLoading: boolean;
     errMessage: string;
 }

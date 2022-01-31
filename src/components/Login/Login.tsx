@@ -1,11 +1,9 @@
 import React from 'react';
 import { Form, Input, Button, Typography } from 'antd';
 import cn from 'classnames';
-import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import useAction from '@/hooks/useAction';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useNavigate } from 'react-router-dom';
-import { ThreeDots } from 'react-loader-spinner';
 import Loader from '@/lib/Loader/Loader';
 import styles from './styles.module.scss';
 
@@ -13,7 +11,8 @@ const Login: React.FC = () => {
     const { GetAuth } = useAction();
 
     const {
-        Login: { session, isLoading },
+        Login: { isLoading },
+        Session: { session },
     } = useTypedSelector(state => state);
 
     const navigate = useNavigate();

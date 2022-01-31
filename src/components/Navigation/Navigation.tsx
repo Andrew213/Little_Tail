@@ -5,27 +5,14 @@ import { Typography, Menu, Avatar } from 'antd';
 import { YuqueOutlined, CarryOutOutlined } from '@ant-design/icons';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import cn from 'classnames';
-import { userT } from '@/store/Login/LoginState';
 
 import styles from './styles.module.scss';
 
 const Navigation: React.FC = () => {
-    const { Login } = useTypedSelector(state => state);
+    const {
+        Session: { session, user },
+    } = useTypedSelector(state => state);
 
-    const [user, setUser] = React.useState<userT>();
-    const [session, setSession] = React.useState<boolean>(false);
-
-    React.useEffect(() => {
-        console.log(Login.user);
-
-        setSession(Login.session);
-        setUser(Login.user);
-        // if (Login.session) {
-        //     console.log(`hello`);
-        // } else {
-        //     console.log(`((()))`);
-        // }
-    }, [Login.session]);
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbar__container}>
