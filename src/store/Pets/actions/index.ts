@@ -1,4 +1,5 @@
 import { RootState } from '@/store';
+import { PetT } from '@/types/PetType';
 import { ThunkDispatch } from 'redux-thunk';
 import { PetsAction } from '../interfaces';
 import { PetsState } from '../PetsState';
@@ -11,17 +12,23 @@ export const getAnimals = (accessToken?: string, pageNumber?: number) => {
             type: PetsActionType.REQUEST_PETS,
         });
 
-        // const access_token = localStorage.getItem('access_token');
-        const res = await fetch(`https://acits-test-back.herokuapp.com/api/animals?limit=5&offset=${pageNumber * 5}`, {
-            headers: {
-                // 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + accessToken,
-            },
-            // body: JSON.stringify({ limit: 5, offset: 5 }),
-        });
+        try {
+            // const access_token = localStorage.getItem('access_token');
+            const res = await fetch(
+                `https://acits-test-back.herokuapp.com/api/animals?limit=5&offset=${pageNumber * 5}`,
+                {
+                    headers: {
+                        // 'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + accessToken,
+                    },
+                    // body: JSON.stringify({ limit: 5, offset: 5 }),
+                }
+            );
 
-        const foo = await res.json();
-
-        console.log(`pets`, foo);
+            const petsList = await res.json();
+            dispatch(receivePetsAC(petsList.results as PetT[]));
+        } catch (err) {
+            console.log(`petsErr`, err);
+        }
     };
 };

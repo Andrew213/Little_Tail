@@ -1,4 +1,4 @@
-import { userT } from '@/components/types/userType';
+import { userT } from '@/types/userType';
 
 export type LoginState = {
     access_token: string;
