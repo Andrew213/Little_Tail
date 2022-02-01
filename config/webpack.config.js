@@ -6,59 +6,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require(`html-webpack-plugin`);
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
 const CssMinimizerPlugin = require(`css-minimizer-webpack-plugin`);
+const TerserPlugin = require('terser-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'prod';
-const REACT_APP = /^REACT_APP_/i;
 
 const appDirectory = fs.realpathSync(process.cwd());
-const dotenv = path.resolve(appDirectory, 'env');
 const isProductionMode = NODE_ENV !== 'development';
 const webpackMode = isProductionMode ? 'production' : 'development';
 const localIdentName = isProductionMode ? '[hash:base64]' : '[path][name]__[local]';
-const themeLessFileName = path.resolve(appDirectory, 'theme', 'theme.less');
-
-const dotenvFiles = [
-    `${dotenv}.local`,
-    `${dotenv}.${NODE_ENV}`,
-    // Don't include `.env.local` for `test` environment
-    // since normally you expect tests to produce the same
-    // results for everyone
-    NODE_ENV !== 'test' && `${dotenv}.local`,
-    dotenv,
-].filter(Boolean);
-
-dotenvFiles.forEach(dotenvFile => {
-    if (fs.existsSync(dotenvFile)) {
-        require('dotenv-expand')(
-            require('dotenv').config({
-                path: dotenvFile,
-            })
-        );
-    }
-});
-
-function getClientEnvironment() {
-    const raw = Object.keys(process.env)
-        .filter(key => REACT_APP.test(key))
-        .reduce(
-            (env, key) => {
-                env[key] = process.env[key];
-                return env;
-            },
-            {
-                NODE_ENV: webpackMode,
-            }
-        );
-    const stringified = {
-        'process.env': Object.keys(raw).reduce((env, key) => {
-            env[key] = JSON.stringify(raw[key]);
-            return env;
-        }, {}),
-    };
-    return { raw, stringified };
-}
-
-const env = getClientEnvironment();
 
 const fontsOptions = isProductionMode
     ? {
@@ -74,9 +29,6 @@ const lessLoader = {
     options: {
         lessOptions: {
             javascriptEnabled: true,
-            modifyVars: {
-                'hack': `true; @import "${themeLessFileName}";`,
-            },
         },
     },
 };
@@ -133,7 +85,6 @@ const plugins = () => {
             filename: 'static/css/[name].[fullhash:8].css',
             ignoreOrder: true,
         }),
-        new webpack.DefinePlugin(env.stringified),
     ];
 
     return pluginsList;
@@ -182,10 +133,10 @@ module.exports = {
                 test: /\.css$/,
                 use: cssLoaders(),
             },
-            // {
-            //     test: /\.less$/,
-            //     use: cssLoaders(lessLoader),
-            // },
+            {
+                test: /\.less$/,
+                use: cssLoaders(lessLoader),
+            },
             {
                 test: /\.scss$/,
                 use: [

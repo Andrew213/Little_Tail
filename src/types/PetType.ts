@@ -7,6 +7,7 @@ type specT = {
 export type PetT = {
     age: number;
     height: number | null;
+    heightUnit: string;
     id: string;
     name: string;
     spec: specT;

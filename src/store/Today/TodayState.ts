@@ -1,5 +1,7 @@
+import { TodayType } from '@/types/TodayType';
+
 export interface TodayState {
-    todayListing: any[];
+    todayListing: TodayType[];
     isLoading: boolean;
-    errMessage: string;
+    errMsg: string;
 }

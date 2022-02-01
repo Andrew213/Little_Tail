@@ -14,34 +14,16 @@ const PetsPagination: React.FC = () => {
 
     const [currentPage, setCurrentPage] = React.useState(filtersFromParams.page || 1);
 
+    const handeonChange = React.useCallback((page: number) => {
+        history.push(`?page=${page}`);
+        setCurrentPage(page);
+    }, []);
+
     React.useEffect(() => {
         if (filtersFromParams.page) {
             setCurrentPage(Number(filtersFromParams.page));
         }
     }, [filtersFromParams.page, history.location.search]);
-
-    // React.useEffect(() => {
-    // }, []);
-    // const filterParams = history.location.search.substr(1);
-    // const filtersFromParams = qs.parse(filterParams);
-    // if (filtersFromParams.page) {
-    //     setCurrentPage(Number(filtersFromParams.page));
-    // }
-
-    // React.useEffect(() => {
-    //     history.push(`?page=${currentPage}`);
-    // }, [currentPage]);
-
-    const handeonChange = React.useCallback((page: number) => {
-        history.push(`?page=${page}`);
-
-        // const filterParams = history.location.search.substr(1);
-        // const filtersFromParams = qs.parse(filterParams);
-        // if (filtersFromParams.page) {
-        // }
-
-        setCurrentPage(page);
-    }, []);
 
     return (
         <div className={styles.petsContainer}>

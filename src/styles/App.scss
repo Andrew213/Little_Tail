@@ -72,3 +72,9 @@ ul {
     height: 1px;
     margin: -1px;
 }
+
+@media (max-width: 800px) {
+    .fixed-container {
+        padding: 0 20px;
+    }
+}

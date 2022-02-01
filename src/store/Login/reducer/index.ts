@@ -17,12 +17,12 @@ const SessionState: SessionState = {
 export const LoginReducer = (state: LoginState = LoginState, action: LoginAction): LoginState => {
     switch (action.type) {
         case LoginActionType.REQUEST_LOGIN:
-            return { ...state, isLoading: true };
+            return { ...state, isLoading: true, errMsg: '' };
         case LoginActionType.RECEIVE_LOGIN:
             return {
                 ...state,
                 isLoading: false,
-                // access_token: action.access_token,
+                errMsg: '',
             };
         case LoginActionType.FETCH_LOGIN_ERROR:
             return { ...state, errMsg: action.errMsg, isLoading: false };
@@ -35,9 +35,9 @@ export const LoginReducer = (state: LoginState = LoginState, action: LoginAction
 export const CheckSessionReducer = (state: SessionState = SessionState, action: LoginAction) => {
     switch (action.type) {
         case LoginActionType.INIT_SESSION:
-            return { ...state, isLoading: true };
+            return { ...state, isLoading: true, errMsg: '' };
         case LoginActionType.INIT_SESSION_SUCCESS:
-            return { ...state, session: true, user: action.user };
+            return { ...state, session: true, user: action.user, errMsg: '' };
         case LoginActionType.INIT_SESSION_ERROR:
             return { ...state, session: false, errMsg: action.errMsg };
         default:

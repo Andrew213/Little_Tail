@@ -52,13 +52,13 @@
     }
 
     &__btn {
-        margin-top: 15px;
-        padding: 10px;
-        background-color: #7347c1;
+        margin-top: 20px;
+        border: none !important;
+        background-color: #7347c1 !important;
         border-radius: 5px;
         &:hover {
-            transition: background-color, 0.3s;
-            background-color: #0674ec;
+            transition: background-color, 0.3s !important;
+            background-color: #0674ec !important;
         }
         & > span {
             color: #fff;

@@ -11,7 +11,7 @@ const Login: React.FC = () => {
     const { GetAuth } = useAction();
 
     const {
-        Login: { isLoading },
+        Login: { isLoading, errMsg },
         Session: { session },
     } = useTypedSelector(state => state);
 
@@ -22,6 +22,8 @@ const Login: React.FC = () => {
         GetAuth(login, password);
     }, []);
 
+    const [showErr, setShowErr] = React.useState<boolean>(false);
+
     React.useEffect(() => {
         if (session) {
             navigate('/animals');
@@ -31,6 +33,15 @@ const Login: React.FC = () => {
     const onFail = React.useCallback(values => {
         console.log(`Error `, values);
     }, []);
+
+    React.useEffect(() => {
+        if (errMsg) {
+            setShowErr(true);
+            setTimeout(() => {
+                setShowErr(false);
+            }, 2000);
+        }
+    }, [errMsg]);
 
     if (isLoading) {
         return <Loader className={styles.loader} />;
@@ -47,9 +58,8 @@ const Login: React.FC = () => {
                 onFinishFailed={onFail}
                 className={styles.login__form}
             >
-                <Form.Item>
-                    <Typography.Paragraph className={styles.login__title}>Авторизуйтесь</Typography.Paragraph>
-                </Form.Item>
+                <p className={styles.login__title}>Авторизуйтесь</p>
+
                 <Form.Item
                     className={styles.login__item}
                     label="Логин"
@@ -69,6 +79,7 @@ const Login: React.FC = () => {
                         className={cn(styles.login__input, styles.login__input_password)}
                     />
                 </Form.Item>
+                {showErr && <span className={styles.login_error}>{errMsg}</span>}
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit" className={styles.login__btn}>
                         Вход

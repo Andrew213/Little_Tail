@@ -50,17 +50,24 @@ export const getAuth = (login: string, password: string | number) => {
                     body: JSON.stringify({ login, password }),
                 });
 
-                const session = await res.json();
-
-                localStorage.setItem('access_token', `${session.accessToken}`);
-                localStorage.setItem('user', JSON.stringify(session.user));
-
-                dispatch(receiveLoginAC());
-                dispatch({
-                    type: LoginActionType.INIT_SESSION_SUCCESS,
-                    user: session.user,
-                });
+                if (res.status === 401) {
+                    dispatch(fetchLoginErrorAC('Неверный логин или пароль'));
+                    dispatch({
+                        type: LoginActionType.INIT_SESSION_ERROR,
+                        errMsg: 'err',
+                    });
+                } else {
+                    const session = await res.json();
+                    localStorage.setItem('access_token', `${session.accessToken}`);
+                    localStorage.setItem('user', JSON.stringify(session.user));
+                    dispatch(receiveLoginAC());
+                    dispatch({
+                        type: LoginActionType.INIT_SESSION_SUCCESS,
+                        user: session.user,
+                    });
+                }
             } catch (err) {
+                dispatch(fetchLoginErrorAC(err as string));
                 console.log(err);
             }
         }

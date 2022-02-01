@@ -1,0 +1,58 @@
+.pet {
+    max-width: 500px;
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+    border-radius: 10px;
+
+    & + & {
+        margin-top: 20px;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: -1;
+        background: linear-gradient(90deg, #7347c1, #0674ec);
+
+        filter: blur(5px);
+    }
+
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:hover::after {
+        transition: filter 0.3s;
+        filter: blur(10px);
+    }
+    &__btn {
+        padding: 10px 20px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        &:hover .pet__name {
+            transition: color 0.3s;
+            color: #0674ec;
+        }
+        &:hover .pet__specName {
+            transition: color 0.3s;
+            color: #0674ec;
+        }
+    }
+
+    &__name {
+        font-weight: 600;
+    }
+
+    &__itemTite {
+        font-weight: 600;
+    }
+}

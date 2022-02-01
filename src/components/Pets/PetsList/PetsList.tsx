@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Loader from '@/lib/Loader/Loader';
 import styles from './styles.module.scss';
+import PetCard from '../PetCard/PetCard';
 
 interface PetsListProps {
     pageNum?: number;
@@ -39,18 +40,20 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
             <div className={styles.pets__container}>
                 {petsListing && (
                     <ul className={styles.pets__list}>
-                        {petsListing.map(el => (
-                            <li className={styles.pets__item} key={el.id}>
-                                <button className={styles.pets__btn}>
-                                    <Typography.Title className={styles.pets__name} level={3}>
-                                        {el.name}
-                                    </Typography.Title>
-                                    <Typography.Paragraph className={styles.pets__specName}>
-                                        {el.spec.name}
-                                    </Typography.Paragraph>
-                                </button>
-                            </li>
-                        ))}
+                        {petsListing.map(el => {
+                            return (
+                                <PetCard
+                                    key={el.id}
+                                    name={el.name}
+                                    breed={el.spec.name}
+                                    age={el.age}
+                                    weight={el.weight}
+                                    height={el.height}
+                                    heightUnit={el.heightUnit}
+                                    weightUnit={el.weightUnit}
+                                />
+                            );
+                        })}
                     </ul>
                 )}
             </div>

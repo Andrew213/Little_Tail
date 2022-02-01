@@ -17,35 +17,29 @@ const Navigation: React.FC = () => {
         <nav className={styles.navbar}>
             <div className={styles.navbar__container}>
                 <div className={styles.navbar__logoContainer}>
-                    <Typography.Title level={2}>
+                    <h2>
                         <Link to="/">
                             <img src={logo} alt="logo cat" className={styles.navbar__logo} />
                             <span style={{ color: '#7347c1' }}>Little</span>
                             <span style={{ color: '#0674ec' }}>Tail</span>
                         </Link>
-                    </Typography.Title>
+                    </h2>
                     {/* <Button className={styles.navbar__menu}></Button> */}
                 </div>
-                <Menu className={styles.navbar__menu}>
-                    <Menu.Item
-                        icon={<YuqueOutlined className={styles.navbar__menuItemIcon} />}
-                        className={cn(styles.navbar__menuItem, styles.navbar__menuItem_animals)}
-                        key={'animals'}
-                    >
+                <ul className={styles.navbar__menu}>
+                    <li className={cn(styles.navbar__menuItem, styles.navbar__menuItem_animals)} key={'animals'}>
+                        <YuqueOutlined className={styles.navbar__menuItemIcon} />
                         <Link to="/animals">
                             <p className={styles.navbar__text}>Животные</p>
                         </Link>
-                    </Menu.Item>
-                    <Menu.Item
-                        icon={<CarryOutOutlined className={styles.navbar__menuItemIcon} />}
-                        className={cn(styles.navbar__menuItem, styles.navbar__menuItem_today)}
-                        key={'today'}
-                    >
+                    </li>
+                    <li className={cn(styles.navbar__menuItem, styles.navbar__menuItem_today)} key={'today'}>
+                        <CarryOutOutlined className={styles.navbar__menuItemIcon} />
                         <Link to="/today">
                             <p className={styles.navbar__text}>Записи</p>
                         </Link>
-                    </Menu.Item>
-                </Menu>
+                    </li>
+                </ul>
                 {session && (
                     <div className={styles.user}>
                         <p className={cn(styles.user__name, styles.user__name_firstName)}>{user.firstName}</p>

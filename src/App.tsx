@@ -1,4 +1,3 @@
-import { Layout } from 'antd';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
@@ -7,8 +6,8 @@ import PetsPagination from './components/Pets/PetsPagination';
 import Today from './components/Today/Today';
 import useAction from './hooks/useAction';
 import { useTypedSelector } from './hooks/useTypedSelector';
+// import 'antd/dist/antd.css';
 import './styles/App.scss';
-
 const App: React.FC = () => {
     const { CheckSession } = useAction();
 
@@ -29,17 +28,13 @@ const App: React.FC = () => {
             </header>
             <main>
                 <div className="fixed-container">
-                    <Layout>
-                        <div className="routes">
-                            <Routes>
-                                <Route path="/animals" element={session ? <PetsPagination /> : <Login />} />
-                                {/* const { Login } = useTypedSelector(state => state); */}
-
-                                <Route path="/today" element={<Today />} />
-                                <Route path="/" element={<Login />} />
-                            </Routes>
-                        </div>
-                    </Layout>
+                    <div className="routes">
+                        <Routes>
+                            <Route path="/animals" element={session ? <PetsPagination /> : <Login />} />
+                            <Route path="/today" element={session ? <Today /> : <Login />} />
+                            <Route path="/" element={<Login />} />
+                        </Routes>
+                    </div>
                 </div>
             </main>
         </>
