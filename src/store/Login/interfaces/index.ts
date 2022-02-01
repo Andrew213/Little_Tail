@@ -1,5 +1,5 @@
+import { userT } from '@/types/userType';
 import { LoginActionType } from '../action/action-types';
-import { userT } from '../LoginState';
 
 export interface requestLoginI {
     type: LoginActionType.REQUEST_LOGIN;
@@ -15,18 +15,7 @@ export interface INIT_SESSION_SUCCESS_I {
 
 export interface INIT_SESSION_ERROR_I {
     type: LoginActionType.INIT_SESSION_ERROR;
-}
-
-export interface CHECK_SESSION_I {
-    type: LoginActionType.CHECK_SESSION;
-}
-
-export interface CHECK_SESSION_SUCCESS_I {
-    type: LoginActionType.CHECK_SESSION_SUCCESS;
-}
-
-export interface CHECK_SESSION_ERROR_I {
-    type: LoginActionType.CHECK_SESSION_ERROR;
+    errMsg: string;
 }
 
 export interface receiveLoginI {
@@ -46,7 +35,4 @@ export type LoginAction =
     | fetchLoginErrorI
     | INIT_SESSION_I
     | INIT_SESSION_SUCCESS_I
-    | INIT_SESSION_ERROR_I
-    | CHECK_SESSION_I
-    | CHECK_SESSION_SUCCESS_I
-    | CHECK_SESSION_ERROR_I;
+    | INIT_SESSION_ERROR_I;

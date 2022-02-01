@@ -13,15 +13,12 @@ export const getAnimals = (accessToken?: string, pageNumber?: number) => {
         });
 
         try {
-            // const access_token = localStorage.getItem('access_token');
             const res = await fetch(
                 `https://acits-test-back.herokuapp.com/api/animals?limit=5&offset=${pageNumber * 5}`,
                 {
                     headers: {
-                        // 'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + accessToken,
                     },
-                    // body: JSON.stringify({ limit: 5, offset: 5 }),
                 }
             );
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Navigation from './components/Navigation/Navigation';
-import Pets from './components/Pets/Pets';
+import PetsPagination from './components/Pets/PetsPagination';
 import Today from './components/Today/Today';
 import useAction from './hooks/useAction';
 import { useTypedSelector } from './hooks/useTypedSelector';
@@ -32,7 +32,7 @@ const App: React.FC = () => {
                     <Layout>
                         <div className="routes">
                             <Routes>
-                                <Route path="/animals" element={session ? <Pets /> : <Login />} />
+                                <Route path="/animals" element={session ? <PetsPagination /> : <Login />} />
                                 {/* const { Login } = useTypedSelector(state => state); */}
 
                                 <Route path="/today" element={<Today />} />

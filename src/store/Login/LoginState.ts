@@ -9,4 +9,5 @@ export type LoginState = {
 export type SessionState = {
     session: boolean;
     user: userT | null;
+    errMsg: string;
 };

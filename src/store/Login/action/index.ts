@@ -24,6 +24,7 @@ export const checkSession = () => {
         } else {
             dispatch({
                 type: LoginActionType.INIT_SESSION_ERROR,
+                errMsg: 'err',
             });
         }
     };
@@ -54,10 +55,11 @@ export const getAuth = (login: string, password: string | number) => {
                 localStorage.setItem('access_token', `${session.accessToken}`);
                 localStorage.setItem('user', JSON.stringify(session.user));
 
-                setTimeout(() => localStorage.clear(), 600000);
-
-                dispatch(checkSession());
                 dispatch(receiveLoginAC());
+                dispatch({
+                    type: LoginActionType.INIT_SESSION_SUCCESS,
+                    user: session.user,
+                });
             } catch (err) {
                 console.log(err);
             }

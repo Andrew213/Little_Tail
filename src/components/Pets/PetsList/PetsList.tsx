@@ -1,46 +1,35 @@
 import React from 'react';
 import useAction from '@/hooks/useAction';
-import { Pagination, Typography } from 'antd';
-import qs from 'qs';
-import { createBrowserHistory } from 'history';
+import { Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-
-import styles from './styles.module.scss';
 import Loader from '@/lib/Loader/Loader';
+import styles from './styles.module.scss';
 
-const Pets: React.FC = () => {
-    const history = createBrowserHistory();
+interface PetsListProps {
+    pageNum?: number;
+}
 
+const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
     const {
         Pets: { isLoading, petsListing },
+        Session: { session },
     } = useTypedSelector(state => state);
 
-    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const navigate = useNavigate();
 
     const { GetAnimals } = useAction();
 
     React.useEffect(() => {
+        if (!session) {
+            navigate('/');
+            return;
+        }
         const access_token = localStorage.getItem('access_token');
 
-        GetAnimals(access_token, currentPage - 1);
-    }, [currentPage]);
+        GetAnimals(access_token, pageNum - 1);
+    }, [pageNum, session]);
 
-    React.useEffect(() => {
-        const filterParams = history.location.search.substr(1);
-        const filtersFromParams = qs.parse(filterParams);
-        if (filtersFromParams.page) {
-            setCurrentPage(Number(filtersFromParams.page));
-        }
-    }, []);
-
-    React.useEffect(() => {
-        history.push(`?page=${currentPage}`);
-    }, [currentPage]);
-
-    const handeonChange = (page: number) => {
-        setCurrentPage(page);
-    };
-    console.log(petsListing);
     if (isLoading) {
         return <Loader className={styles.loader} />;
     }
@@ -48,7 +37,7 @@ const Pets: React.FC = () => {
     return (
         <section className={styles.pets}>
             <div className={styles.pets__container}>
-                {petsListing.length && (
+                {petsListing && (
                     <ul className={styles.pets__list}>
                         {petsListing.map(el => (
                             <li className={styles.pets__item} key={el.id}>
@@ -65,15 +54,8 @@ const Pets: React.FC = () => {
                     </ul>
                 )}
             </div>
-            <Pagination
-                current={currentPage}
-                className={styles.pets__pagination}
-                total={23}
-                onChange={handeonChange}
-                defaultPageSize={5}
-            />
         </section>
     );
 };
 
-export default Pets;
+export default PetsList;

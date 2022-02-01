@@ -1,6 +1,6 @@
 import { LoginActionType } from '../action-types';
 import { fetchLoginErrorI, INIT_SESSION_SUCCESS_I, receiveLoginI } from '../../interfaces';
-import { userT } from '../../LoginState';
+import { userT } from '@/types/userType';
 
 export const receiveLoginAC = (): receiveLoginI => {
     return {
