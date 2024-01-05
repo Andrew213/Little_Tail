@@ -1,5 +1,0 @@
-export enum PetsActionType {
-    REQUEST_PETS = 'REQUEST_PETS',
-    RECEIVE_PETS = 'RECEIVE_PETS',
-    FETCH_PETS_ERROR = 'FETCH_PETS_ERROR',
-}
