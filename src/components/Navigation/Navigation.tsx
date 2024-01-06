@@ -40,11 +40,12 @@ const Navigation: React.FC = () => {
                         </Link>
                     </li>
                 </ul>
+
                 {session && (
                     <div className={styles.user}>
-                        <p className={cn(styles.user__name, styles.user__name_firstName)}>{user.firstName}</p>
-                        <p className={cn(styles.user__name, styles.user__name_lastName)}>{user.lastName}</p>
-                        <Avatar className={styles.user__ava} src="https://joeschmoe.io/api/v1/random" />
+                        <p className={cn(styles.user__name, styles.user__name_firstName)}>{user.first_name}</p>
+                        <p className={cn(styles.user__name, styles.user__name_lastName)}>{user.last_name}</p>
+                        <Avatar className={styles.user__ava} src="https://avatar.iran.liara.run/public" />
                     </div>
                 )}
             </div>
