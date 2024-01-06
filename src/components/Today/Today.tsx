@@ -28,7 +28,7 @@ const Today: React.FC = () => {
             navigate('/');
             return;
         }
-        GetToday();
+        // GetToday();
     }, []);
 
     if (isLoading) {

@@ -42,30 +42,57 @@ export const getAuth = (login: string, password: string | number) => {
 
         if (!session) {
             try {
-                const res = await fetch('https://acits-test-back.herokuapp.com/api/login', {
+                // const res = await fetch('https://acits-test-back.herokuapp.com/api/login', {
+                // method: 'POST',
+                // headers: {
+                // 'Content-Type': 'application/json',
+                // },
+                // body: JSON.stringify({ login, password }),
+                // });
+
+                const res = await fetch('http://localhost:5000/api/auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ login, password }),
+                    body: JSON.stringify({ email: login, password }),
                 });
 
-                if (res.status === 401) {
+                if (res?.status === 400) {
                     dispatch(fetchLoginErrorAC('Неверный логин или пароль'));
                     dispatch({
                         type: LoginActionType.INIT_SESSION_ERROR,
                         errMsg: 'err',
                     });
-                } else {
-                    const session = await res.json();
-                    localStorage.setItem('access_token', `${session.accessToken}`);
-                    localStorage.setItem('user', JSON.stringify(session.user));
-                    dispatch(receiveLoginAC());
-                    dispatch({
-                        type: LoginActionType.INIT_SESSION_SUCCESS,
-                        user: session.user,
-                    });
+                    return;
                 }
+
+                if (res?.status === 404) {
+                    dispatch(fetchLoginErrorAC('Пользователь не найден'));
+                    dispatch({
+                        type: LoginActionType.INIT_SESSION_ERROR,
+                        errMsg: 'err',
+                    });
+                    return;
+                }
+
+                // if (res.status === 400) {
+                //     dispatch(fetchLoginErrorAC('Неверный логин или пароль'));
+                //     dispatch({
+                //         type: LoginActionType.INIT_SESSION_ERROR,
+                //         errMsg: 'err',
+                //     });
+                // } else {
+                const session = await res.json();
+                console.log(`session `, session);
+                localStorage.setItem('access_token', `${session.token}`);
+                localStorage.setItem('user', JSON.stringify(session.user));
+                dispatch(receiveLoginAC());
+                dispatch({
+                    type: LoginActionType.INIT_SESSION_SUCCESS,
+                    user: session.user,
+                });
+                // }
             } catch (err) {
                 dispatch(fetchLoginErrorAC(err as string));
                 console.log(err);
