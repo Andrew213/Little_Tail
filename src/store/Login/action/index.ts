@@ -5,9 +5,10 @@ import { LoginState } from '../LoginState';
 import { LoginAction } from '../interfaces';
 import { Dispatch } from 'redux';
 import { RootState } from '@/store';
+import { userT } from '@/types/userType';
 
 export const checkSession = () => {
-    return (dispatch: Dispatch<LoginAction>) => {
+    return async (dispatch: Dispatch<LoginAction>) => {
         dispatch({
             type: LoginActionType.INIT_SESSION,
         });
@@ -15,12 +16,18 @@ export const checkSession = () => {
         const access_token = localStorage.getItem('access_token');
 
         if (access_token) {
-            const user = localStorage.getItem('user');
-
-            dispatch({
-                type: LoginActionType.INIT_SESSION_SUCCESS,
-                user: JSON.parse(user),
+            const res = await fetch('http://localhost:5000/api/auth/auth', {
+                headers: { Authorization: `Bearer ${access_token}` },
             });
+            const response = await res.json();
+
+            if (response.user) {
+                dispatch({
+                    type: LoginActionType.INIT_SESSION_SUCCESS,
+                    user: response.user as userT,
+                });
+            }
+            // const user = localStorage.getItem('user');
         } else {
             dispatch({
                 type: LoginActionType.INIT_SESSION_ERROR,
@@ -84,9 +91,8 @@ export const getAuth = (login: string, password: string | number) => {
                 //     });
                 // } else {
                 const session = await res.json();
-                console.log(`session `, session);
                 localStorage.setItem('access_token', `${session.token}`);
-                localStorage.setItem('user', JSON.stringify(session.user));
+                // localStorage.setItem('user', JSON.stringify(session.user));
                 dispatch(receiveLoginAC());
                 dispatch({
                     type: LoginActionType.INIT_SESSION_SUCCESS,

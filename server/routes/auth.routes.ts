@@ -5,6 +5,7 @@ import config from 'config';
 import jwt from 'jsonwebtoken';
 import { check, validationResult } from 'express-validator';
 import User from '../models/User.js';
+import auth from '../middleware/auth.js';
 const router = express.Router();
 
 router.post(
@@ -55,6 +56,26 @@ router.post('/login', async (req: Request, res: Response) => {
             return res.status(400).json({ message: `Invalid password`, status: 400 });
         }
 
+        const token = jwt.sign({ id: user.id }, config.get('secretKey'), { expiresIn: '1h' });
+
+        return res.json({
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({ message: 'server error' });
+    }
+});
+
+router.get('/auth', auth, async (req: Request & { user: { id: string } }, res: Response) => {
+    try {
+        const user = await User.findOne({ _id: req.user.id });
         const token = jwt.sign({ id: user.id }, config.get('secretKey'), { expiresIn: '1h' });
 
         return res.json({
