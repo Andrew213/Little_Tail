@@ -1,6 +1,5 @@
 import React from 'react';
-import useAction from '@/hooks/useAction';
-import { Pagination, Typography } from 'antd';
+import { Pagination } from 'antd';
 import qs from 'qs';
 import { createBrowserHistory } from 'history';
 
