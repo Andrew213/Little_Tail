@@ -19,6 +19,7 @@ export const checkSession = () => {
             const res = await fetch('http://localhost:5000/api/auth/auth', {
                 headers: { Authorization: `Bearer ${access_token}` },
             });
+
             const response = await res.json();
 
             if (response.user) {

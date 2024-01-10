@@ -1,6 +1,5 @@
 import React from 'react';
 import useAction from '@/hooks/useAction';
-import { Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Loader from '@/lib/Loader/Loader';
@@ -28,7 +27,8 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
         }
         const access_token = localStorage.getItem('access_token');
 
-        GetAnimals(access_token, pageNum - 1);
+        GetAnimals(access_token, pageNum);
+        console.log(123);
     }, [pageNum, session]);
 
     if (isLoading) {
@@ -43,7 +43,7 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
                         {petsListing.map(el => {
                             return (
                                 <PetCard
-                                    key={el.id}
+                                    key={el._id}
                                     name={el.name}
                                     breed={el.spec.name}
                                     age={el.age}

@@ -9,24 +9,20 @@ import { receivePetsAC, fetchPetsErrAC } from './action-creators';
 import { PetsActionType } from './action-types';
 
 export const getAnimals = (accessToken?: string, pageNumber?: number) => {
-    return async (dispatch: ThunkDispatch<PetsState, void, PetsAction | LoginAction>, getState: () => RootState) => {
+    return async (dispatch: ThunkDispatch<PetsState, void, PetsAction | LoginAction>) => {
         dispatch({
             type: PetsActionType.REQUEST_PETS,
         });
 
         try {
-            const res = await fetch(
-                `https://acits-test-back.herokuapp.com/api/animals?limit=5&offset=${pageNumber * 5}`,
-                {
-                    headers: {
-                        'Authorization': 'Bearer ' + accessToken,
-                    },
-                }
-            );
+            const res = await fetch(`http://localhost:5000/api/pets?limit=5&pageNumber=${pageNumber}`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
 
             const petsList = await res.json();
-            if (petsList.results) {
-                dispatch(receivePetsAC(petsList.results as PetT[]));
+
+            if (petsList) {
+                dispatch(receivePetsAC(petsList as PetT[]));
             } else {
                 dispatch({ type: LoginActionType.INIT_SESSION_ERROR, errMsg: 'Истекло время токена' });
             }
