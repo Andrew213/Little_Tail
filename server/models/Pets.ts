@@ -1,13 +1,14 @@
 import { Schema, model } from 'mongoose';
+import { SpecSchema } from './Specs.js';
 
-const PetsSchema = new Schema({
+export const PetsSchema = new Schema({
     age: { type: Number, required: true },
     height: { type: Number },
     heightUnit: { type: String },
     name: { type: String, required: true },
     weight: { type: Number },
     weightUnit: { type: String },
-    spec: { type: Schema.Types.Mixed },
+    spec: { type: SpecSchema },
 });
 
 export default model('Pet', PetsSchema);

@@ -24,7 +24,6 @@ const Navigation: React.FC = () => {
                             <span style={{ color: '#0674ec' }}>Tail</span>
                         </Link>
                     </h2>
-                    {/* <Button className={styles.navbar__menu}></Button> */}
                 </div>
                 <ul className={styles.navbar__menu}>
                     <li className={cn(styles.navbar__menuItem, styles.navbar__menuItem_animals)} key={'animals'}>

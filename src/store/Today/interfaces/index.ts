@@ -5,9 +5,20 @@ interface RequestTodayI {
     type: TodayActionTypes.REQUEST_TODAY;
 }
 
+interface RequestCreateTodayI {
+    type: TodayActionTypes.REQUEST_CREATE_TODAY;
+    isLoading: boolean;
+}
+
 interface ReceiveTodayI {
     type: TodayActionTypes.RECEIVE_TODAY;
     todayList: TodayType[];
+}
+
+interface ReceiveCreateTodayI {
+    type: TodayActionTypes.RECEIVE_CREATE_TODAY;
+    isLoading: boolean;
+    successMsg: string;
 }
 
 interface FetchTodayErrorI {
@@ -15,4 +26,16 @@ interface FetchTodayErrorI {
     errMsg: string;
 }
 
-export type getTodayAction = RequestTodayI | ReceiveTodayI | FetchTodayErrorI;
+interface FetchCreateTodayErrorI {
+    type: TodayActionTypes.FETCH_CREATE_TODAY_ERROR;
+    isLoading: boolean;
+    errMsg: string;
+}
+
+export type getTodayAction =
+    | RequestTodayI
+    | ReceiveTodayI
+    | FetchTodayErrorI
+    | RequestCreateTodayI
+    | ReceiveCreateTodayI
+    | FetchCreateTodayErrorI;

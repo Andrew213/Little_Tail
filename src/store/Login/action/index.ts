@@ -32,7 +32,7 @@ export const checkSession = () => {
         } else {
             dispatch({
                 type: LoginActionType.INIT_SESSION_ERROR,
-                errMsg: 'err',
+                errMsg: 'no  auth',
             });
         }
     };
@@ -50,14 +50,6 @@ export const getAuth = (login: string, password: string | number) => {
 
         if (!session) {
             try {
-                // const res = await fetch('https://acits-test-back.herokuapp.com/api/login', {
-                // method: 'POST',
-                // headers: {
-                // 'Content-Type': 'application/json',
-                // },
-                // body: JSON.stringify({ login, password }),
-                // });
-
                 const res = await fetch('http://localhost:5000/api/auth/login', {
                     method: 'POST',
                     headers: {
