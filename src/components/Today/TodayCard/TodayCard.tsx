@@ -1,4 +1,4 @@
-import PetModal from '@/components/PetModal/PetModal';
+import PetModal from '@/components/Pets/PetModal/PetModal';
 import React from 'react';
 
 import styles from './styles.module.scss';

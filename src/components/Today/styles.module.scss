@@ -1,5 +1,16 @@
 .today {
     margin-top: 50px;
+    &__createBtn {
+        background-color: #7347c1;
+        & > span {
+            color: #fff;
+        }
+        border-radius: 10px;
+        & svg {
+            fill: #fff;
+        }
+        position: fixed;
+    }
 }
 
 .loader {

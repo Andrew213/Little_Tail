@@ -1,5 +1,5 @@
 import React from 'react';
-import PetModal from '@/components/PetModal/PetModal';
+import PetModal from '@/components/Pets/PetModal/PetModal';
 import styles from './styles.module.scss';
 
 interface PetCardI {

@@ -6,6 +6,9 @@ import Loader from '@/lib/Loader/Loader';
 import TodayCard from './TodayCard/TodayCard';
 
 import styles from './styles.module.scss';
+import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import AddTherapyModal from './AddTherapyModal/AddTherapyModal';
 
 const convertTime = (time: string) => {
     const foo = time.split(':');
@@ -37,6 +40,10 @@ const Today: React.FC = () => {
 
     return (
         <div className={styles.today}>
+            <Button type="primary" className={styles.today__createBtn} icon={<PlusOutlined />}>
+                Сделать запись
+            </Button>
+            <AddTherapyModal open />
             <ul className={styles.today__list}>
                 {todayListing.map(el => {
                     const time = convertTime(el.time);
@@ -49,7 +56,7 @@ const Today: React.FC = () => {
                             weight={animal.weight}
                             weightUnit={animal.weightUnit}
                             breed={animal.spec.name}
-                            key={animal.id}
+                            key={animal._id}
                             time={time}
                             type={el.type}
                             name={animal.name}

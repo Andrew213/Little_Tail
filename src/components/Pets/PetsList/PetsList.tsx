@@ -25,10 +25,7 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
             navigate('/');
             return;
         }
-        const access_token = localStorage.getItem('access_token');
-
-        GetAnimals(access_token, pageNum);
-        console.log(123);
+        GetAnimals({ pageNumber: pageNum });
     }, [pageNum, session]);
 
     if (isLoading) {

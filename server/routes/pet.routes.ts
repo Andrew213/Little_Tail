@@ -20,7 +20,7 @@ router.post('/pets', async (req: Request, res: Response) => {
                 await petSchema.save();
             }
         }
-        return res.json({ message: 'Pets was created' });
+        return res.json({ message: 'Pets was saved' });
     } catch (error) {
         console.log(`error `, error);
         res.send({ message: 'server error' });
@@ -29,15 +29,20 @@ router.post('/pets', async (req: Request, res: Response) => {
 
 router.get('/pets', auth, async (req: Request, res: Response) => {
     try {
-        const { limit, pageNumber } = req.query;
+        const { limit, pageNumber, allData } = req.query;
+        if (!+allData) {
+            const skip = (+pageNumber - 1) * +limit;
 
-        const skip = (+pageNumber - 1) * +limit;
+            const pets = await Pets.find({})
+                .limit(+limit)
+                .skip(skip);
 
-        const pets = await Pets.find({})
-            .limit(+limit)
-            .skip(skip);
+            return res.json(pets);
+        } else {
+            const pets = await Pets.find({});
 
-        return res.json(pets);
+            return res.json(pets);
+        }
     } catch (error) {
         console.log(`error `, error);
         res.send({ message: 'server error' });

@@ -6,12 +6,15 @@ import { LoginState, SessionState } from './Login/LoginState';
 import { CheckSessionReducer, LoginReducer } from './Login/reducer';
 import { PetsReducer } from './Pets/reducer';
 import { TodayReducer } from './Today/reducer';
+import { TherapyReducer } from './Therapy/reducer';
+import { TherapyState } from './Therapy/TherapyState';
 
 export type RootState = {
     Pets: PetsState;
     Today: TodayState;
     Login: LoginState;
     Session: SessionState;
+    Therapy: TherapyState;
 };
 
 export const reducers = combineReducers({
@@ -19,6 +22,7 @@ export const reducers = combineReducers({
     Today: TodayReducer,
     Login: LoginReducer,
     Session: CheckSessionReducer,
+    Therapy: TherapyReducer,
 });
 
 export type RootStore = ReturnType<typeof reducers>;

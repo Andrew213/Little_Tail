@@ -6,6 +6,9 @@ const InitialState: TodayState = {
     isLoading: false,
     errMsg: '',
     todayListing: [],
+    createLoading: false,
+    createErrorMsg: '',
+    createSuccessMsg: '',
 };
 
 export const TodayReducer = (state: TodayState = InitialState, action: getTodayAction): TodayState => {
@@ -18,6 +21,10 @@ export const TodayReducer = (state: TodayState = InitialState, action: getTodayA
 
         case TodayActionTypes.FETCH_TODAY_ERROR:
             return { ...state, isLoading: false, errMsg: action.errMsg };
+        case TodayActionTypes.FETCH_CREATE_TODAY_ERROR:
+            return { ...state, errMsg: action.errMsg, createLoading: action.isLoading };
+        case TodayActionTypes.REQUEST_CREATE_TODAY:
+            return { ...state, createLoading: action.isLoading };
         default:
             return state;
     }
