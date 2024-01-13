@@ -6,7 +6,7 @@ export const SpecSchema = new Schema({
         required: true,
         unique: true,
     },
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     type: { type: String, required: true },
 });
 

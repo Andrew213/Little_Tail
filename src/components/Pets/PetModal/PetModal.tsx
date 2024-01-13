@@ -31,7 +31,7 @@ const PetModal: React.FC<PetModalI> = ({
     onOk,
 }) => {
     return (
-        <Modal title={name} visible={isVisible} onOk={onOk} className={styles.petModal}>
+        <Modal title={name} open={isVisible} onOk={onOk} className={styles.petModal}>
             <ul className={styles.pet__list}>
                 <li className={cn(styles.pet__item, styles.pet__item_breed)}>
                     <span className={cn(styles.pet__itemTite, styles.pet__itemTite_purpure)}>Порода: </span>

@@ -6,6 +6,7 @@
     display: block;
     max-width: 500px;
     width: 100%;
+    position: relative;
     &__btn {
         width: 100%;
         cursor: pointer;
@@ -32,6 +33,13 @@
         &:hover::after {
             transition: filter 0.3s;
             filter: blur(10px);
+        }
+
+        &_delete {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
         }
     }
     &__body {

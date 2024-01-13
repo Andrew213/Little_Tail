@@ -12,14 +12,12 @@
     position: absolute;
     bottom: 0;
     transform: translateY(150%);
+    align-items: center;
     & a {
-        margin: 0px 10px;
-        padding: 5px 8px;
         background-color: #7347c1;
         border-radius: 3px;
         color: #fff !important;
 
-        cursor: pointer;
         &:hover {
             transition: background-color 0.3s;
             background-color: #0674ec !important;

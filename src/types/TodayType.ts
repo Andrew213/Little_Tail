@@ -1,8 +1,9 @@
 import { PetT } from './PetType';
+import { TherapyT } from './Therapy';
 
 export type TodayType = {
-    id: string;
-    time: string;
-    type: string;
-    animal: PetT;
+    _id: string;
+    dateTime: number;
+    therapy: TherapyT;
+    pet: PetT;
 };
