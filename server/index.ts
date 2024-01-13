@@ -8,8 +8,9 @@ import todayRouter from './routes/today.routes.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
-const app = express();
 
+const app = express();
+const PORT = process.env.PORT || 8800;
 dotenv.config();
 
 app.use(cors());
@@ -20,16 +21,15 @@ app.use('/api', petRouter);
 app.use('/api', therapyRouter);
 app.use('/api', todayRouter);
 
-const start = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_CONNECTION);
+mongoose
+    .connect(process.env.MONGO_CONNECTION)
+    .then(() => {
+        console.log('MongoDB is Connected..');
+    })
+    .catch(err => {
+        console.log(err.message);
+    });
 
-        app.listen(5000, () => {
-            console.log('server started on ', 5000);
-        });
-    } catch (e) {
-        console.log(`error `, e);
-    }
-};
-
-void start();
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

@@ -8,7 +8,12 @@ import { useForm } from 'antd/es/form/Form';
 import useAction from '@/hooks/useAction';
 import { TODAY_POST_DATA } from 'server/routes/today.routes';
 
-const AddTherapyModal: React.FC<ModalProps> = ({ ...props }) => {
+interface AddTherapyModal extends ModalProps {
+    setVisible: (a: boolean) => void;
+    setTodayListReload: (a: (prev: boolean) => boolean) => void;
+}
+
+const AddTherapyModal: React.FC<AddTherapyModal> = ({ setVisible, setTodayListReload, ...props }) => {
     const { CreateToday } = useAction();
 
     const [form] = useForm();
@@ -17,7 +22,7 @@ const AddTherapyModal: React.FC<ModalProps> = ({ ...props }) => {
         try {
             const values = await form.validateFields();
 
-            CreateToday({
+            const res = await CreateToday({
                 petId: values.petId,
                 therapyId: values.therapyId,
                 dateTime: new Date(
@@ -26,6 +31,11 @@ const AddTherapyModal: React.FC<ModalProps> = ({ ...props }) => {
                     )}`
                 ),
             } as TODAY_POST_DATA);
+            if (res && (res as any).ok) {
+                setTodayListReload(prev => !prev);
+            }
+
+            setVisible(false);
         } catch (err) {
             console.log(`err `, err);
         }

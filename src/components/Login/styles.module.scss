@@ -18,15 +18,16 @@
         margin-bottom: 10px;
         align-content: center;
         color: #7347c1;
-        font-weight: 500;
+        font-weight: 800;
+        font-size: 25px;
     }
 
     &__input {
         border: none;
-        background-color: transparent;
+        background-color: transparent !important;
         border-bottom: 1px solid #7347c1;
-        margin-top: 10px;
-        outline: none;
+        // margin-top: 10px;
+        outline: none !important;
     }
 
     &__item {
@@ -34,20 +35,6 @@
 
         div[role='alert'] {
             color: #ff6a6d;
-        }
-    }
-
-    &__input_password {
-        position: relative;
-        & > input {
-            border: none;
-            margin-top: 10px;
-            outline: none;
-        }
-        & > span {
-            position: absolute;
-            top: 1px;
-            // right: 0;
         }
     }
 

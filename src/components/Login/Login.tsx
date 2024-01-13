@@ -30,7 +30,7 @@ const Login: React.FC = () => {
         }
     }, [session]);
 
-    const onFail = React.useCallback(values => {
+    const onFail = React.useCallback((values: unknown) => {
         console.log(`Error `, values);
     }, []);
 
@@ -51,40 +51,30 @@ const Login: React.FC = () => {
         <div className={styles.login}>
             <Form
                 name="login"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
+                // labelCol={{ span: 8 }}
+                // wrapperCol={{ span: 16 }}
                 autoComplete="off"
+                labelAlign="left"
+                requiredMark={false}
                 onFinish={onSuccess}
                 onFinishFailed={onFail}
                 className={styles.login__form}
             >
                 <p className={styles.login__title}>Авторизуйтесь</p>
 
-                <Form.Item
-                    className={styles.login__item}
-                    label="Логин"
-                    name="login"
-                    rules={[{ required: true, message: 'Введите ваш логин' }]}
-                >
+                <Form.Item label="Логин" name="login" rules={[{ required: true, message: 'Введите ваш логин' }]}>
                     <Input className={styles.login__input} />
                 </Form.Item>
-                <Form.Item
-                    className={styles.login__item}
-                    label="Пароль"
-                    name="password"
-                    rules={[{ required: true, message: 'Введите ваш пароль' }]}
-                >
+                <Form.Item label="Пароль" name="password" rules={[{ required: true, message: 'Введите ваш пароль' }]}>
                     <Input.Password
                         autoComplete="new-password"
                         className={cn(styles.login__input, styles.login__input_password)}
                     />
                 </Form.Item>
                 {showErr && <span className={styles.login_error}>{errMsg}</span>}
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit" className={styles.login__btn}>
-                        Вход
-                    </Button>
-                </Form.Item>
+                <Button type="primary" htmlType="submit" className={styles.login__btn}>
+                    Вход
+                </Button>
             </Form>
         </div>
     );

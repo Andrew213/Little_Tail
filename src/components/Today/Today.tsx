@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useNavigate } from 'react-router-dom';
 import useAction from '@/hooks/useAction';
@@ -9,15 +9,11 @@ import styles from './styles.module.scss';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import AddTherapyModal from './AddTherapyModal/AddTherapyModal';
-
-const convertTime = (time: string) => {
-    const foo = time.split(':');
-
-    return `${foo[0]}:${foo[1]}`;
-};
+import dayjs from 'dayjs';
 
 const Today: React.FC = () => {
     const { GetToday } = useAction();
+    const [reload, setReload] = useState(false);
 
     const {
         Session: { session },
@@ -31,8 +27,10 @@ const Today: React.FC = () => {
             navigate('/');
             return;
         }
-        // GetToday();
-    }, []);
+        GetToday({ pageNumber: 1 });
+    }, [reload]);
+
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     if (isLoading) {
         return <Loader className={styles.loader} />;
@@ -40,25 +38,37 @@ const Today: React.FC = () => {
 
     return (
         <div className={styles.today}>
-            <Button type="primary" className={styles.today__createBtn} icon={<PlusOutlined />}>
+            <Button
+                onClick={() => setIsModalOpen(true)}
+                type="primary"
+                className={styles.today__createBtn}
+                icon={<PlusOutlined />}
+            >
                 Сделать запись
             </Button>
-            <AddTherapyModal open />
+            <AddTherapyModal
+                setTodayListReload={setReload}
+                open={isModalOpen}
+                setVisible={setIsModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                destroyOnClose
+            />
             <ul className={styles.today__list}>
                 {todayListing.map(el => {
-                    const time = convertTime(el.time);
-                    const animal = el.animal;
+                    const animal = el.pet;
                     return (
                         <TodayCard
+                            setTodayListReload={setReload}
                             age={animal.age}
                             height={animal.height}
                             heightUnit={animal.heightUnit}
                             weight={animal.weight}
                             weightUnit={animal.weightUnit}
                             breed={animal.spec.name}
-                            key={animal._id}
-                            time={time}
-                            type={el.type}
+                            key={el._id}
+                            id={el._id}
+                            time={dayjs(el.dateTime * 1000)}
+                            type={el.therapy.type}
                             name={animal.name}
                         />
                     );

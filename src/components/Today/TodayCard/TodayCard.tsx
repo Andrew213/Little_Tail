@@ -2,6 +2,10 @@ import PetModal from '@/components/Pets/PetModal/PetModal';
 import React from 'react';
 
 import styles from './styles.module.scss';
+import dayjs, { Dayjs } from 'dayjs';
+import { Button, Popconfirm } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import useAction from '@/hooks/useAction';
 
 interface TodayCardProps {
     name: string;
@@ -11,14 +15,25 @@ interface TodayCardProps {
     heightUnit: string;
     weight: number;
     weightUnit: string;
-    time: string;
+    time: Dayjs;
     type: string;
+    id: string;
+    setTodayListReload: (a: (prev: boolean) => boolean) => void;
 }
 
 const TodayCard: React.FC<TodayCardProps> = props => {
-    const { name, age, breed, height, heightUnit, weight, weightUnit, time, type } = props;
+    const { name, setTodayListReload, age, breed, height, heightUnit, weight, weightUnit, time, type, id } = props;
+
+    const { DeleteToday } = useAction();
 
     const [showCard, setShowCard] = React.useState(false);
+
+    const deleteToday = async () => {
+        const foo = await DeleteToday(id);
+        if (foo) {
+            setTodayListReload(prev => !prev);
+        }
+    };
 
     const handleShowCard = React.useCallback(() => {
         setShowCard(false);
@@ -31,6 +46,23 @@ const TodayCard: React.FC<TodayCardProps> = props => {
 
     return (
         <li className={styles.today}>
+            <Popconfirm
+                title={`Вы действительно хотите удалить запись?`}
+                okText="Да, удалить"
+                cancelText="Нет"
+                placement="right"
+                okType="danger"
+                onConfirm={deleteToday}
+            >
+                <Button
+                    className={styles.today__btn_delete}
+                    style={{ marginRight: 'auto' }}
+                    danger
+                    type="link"
+                    icon={<DeleteOutlined />}
+                />
+            </Popconfirm>
+
             <button className={styles.today__btn} onClick={handleShowCard}>
                 <div className={styles.today__body}>
                     <div className={styles.today__cell}>
@@ -46,8 +78,12 @@ const TodayCard: React.FC<TodayCardProps> = props => {
                         <span className={styles.today__headerText}>{breed}</span>
                     </div>
                     <div className={styles.today__cell}>
+                        <span className={styles.today__headerTitle}>Дата</span>
+                        <span className={styles.today__headerText}>{`${time.format('DD-MM-YYYY')}`}</span>
+                    </div>
+                    <div className={styles.today__cell}>
                         <span className={styles.today__headerTitle}>Время</span>
-                        <span className={styles.today__headerText}>{time}</span>
+                        <span className={styles.today__headerText}>{`${time.get('h')}:${time.format('mm')}`}</span>
                     </div>
                 </div>
             </button>
