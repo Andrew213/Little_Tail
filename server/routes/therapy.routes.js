@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express, { Request, Response } from 'express';
+import express from 'express';
 import TherapySchema from '../models/Therapy.js';
 import auth from '../middleware/auth.js';
-import { TherapyT } from '../../src/types/Therapy.js';
 
 const router = express.Router();
 
-router.post('/therapy', async (req: Request, res: Response) => {
+router.post('/therapy', async (req, res) => {
     try {
-        const therapyArr = req.body as TherapyT[];
+        const therapyArr = req.body;
 
         if (Array.isArray(therapyArr)) {
             for (const therapy of therapyArr) {
@@ -26,7 +25,7 @@ router.post('/therapy', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/therapy', auth, async (req: Request, res: Response) => {
+router.get('/therapy', auth, async (req, res) => {
     try {
         const therapies = await TherapySchema.find({});
         return res.json(therapies);

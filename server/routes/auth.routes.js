@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { check, validationResult } from 'express-validator';
@@ -13,7 +15,7 @@ router.post(
         check('email', 'Uncorrect email').isEmail(),
         check('password', 'Password must be longer than 8 and shorter than 12 symbols').isLength({ min: 8, max: 12 }),
     ],
-    async (req: Request, res: Response) => {
+    async (req, res) => {
         try {
             const errors = validationResult(req);
 
@@ -28,7 +30,7 @@ router.post(
             if (candidate) {
                 return res.status(400).json({ message: `User with email ${email} alredy exists` });
             }
-            const hashPassword = await bcrypt.hash(password as string, 2);
+            const hashPassword = await bcrypt.hash(password, 2);
             const user = new User({ email, password: hashPassword, first_name, last_name });
             await user.save();
 
@@ -40,7 +42,7 @@ router.post(
     }
 );
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -49,13 +51,15 @@ router.post('/login', async (req: Request, res: Response) => {
         if (!user) {
             return res.status(404).json({ message: `User not found`, status: 404 });
         }
-        const isPassValid = bcrypt.compareSync(password as string, user.password);
+        const isPassValid = bcrypt.compareSync(password, user.password);
 
         if (!isPassValid) {
             return res.status(400).json({ message: `Invalid password`, status: 400 });
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        console.log(`token `, token);
 
         return res.json({
             token,
@@ -72,7 +76,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/auth', auth, async (req: Request & { user: { id: string } }, res: Response) => {
+router.get('/auth', auth, async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.user.id });
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });

@@ -1,7 +1,8 @@
-import type { Response, Request, NextFunction } from 'express';
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import jwt from 'jsonwebtoken';
 
-const auth = (req: Request & { user: unknown }, res: Response, next: NextFunction) => {
+const auth = (req, res, next) => {
     if (req.method === 'OPTIONS') {
         return next();
     }

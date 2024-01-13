@@ -2,7 +2,14 @@ import { ThunkDispatch } from 'redux-thunk';
 import { getTodayAction } from '../interfaces';
 import { TodayState } from '../TodayState';
 import { TodayActionTypes } from './action-types';
-import { TODAY_POST_DATA } from 'server/routes/today.routes';
+import { PetT } from '@/types/PetType';
+import { TherapyT } from '@/types/Therapy';
+
+type TODAY_POST_DATA = {
+    pet: PetT;
+    therapy: TherapyT;
+    dateTime: number;
+};
 
 export const createToday = (data: TODAY_POST_DATA) => {
     return async (dispatch: ThunkDispatch<TodayState, void, getTodayAction>) => {
@@ -14,7 +21,7 @@ export const createToday = (data: TODAY_POST_DATA) => {
         const accessToken = localStorage.getItem('access_token');
 
         try {
-            const res = await fetch('http://localhost:5000/api/today', {
+            const res = await fetch('https://littletail.onrender.com/api/today', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + accessToken,

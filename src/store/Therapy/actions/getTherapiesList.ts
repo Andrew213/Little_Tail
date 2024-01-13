@@ -12,7 +12,7 @@ export const getTherapiesList = () => {
         try {
             const access_token = localStorage.getItem('access_token');
             if (access_token) {
-                const res = await fetch(`http://localhost:5000/api/therapy`, {
+                const res = await fetch(`https://littletail.onrender.com/api/therapy`, {
                     headers: { Authorization: `Bearer ${access_token}` },
                 });
                 const therapiesList = await res.json();

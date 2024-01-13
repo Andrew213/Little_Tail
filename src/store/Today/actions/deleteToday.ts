@@ -8,7 +8,7 @@ export const deleteToday = (id: string) => {
         const accessToken = localStorage.getItem('access_token');
 
         try {
-            const foo = await fetch('http://localhost:5000/api/today', {
+            const foo = await fetch('https://littletail.onrender.com/api/today', {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + accessToken,

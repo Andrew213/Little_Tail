@@ -16,7 +16,7 @@ export const checkSession = () => {
         const access_token = localStorage.getItem('access_token');
 
         if (access_token) {
-            const res = await fetch('http://localhost:5000/api/auth/auth', {
+            const res = await fetch('https://littletail.onrender.com/api/auth/auth', {
                 headers: { Authorization: `Bearer ${access_token}` },
             });
 
@@ -49,7 +49,7 @@ export const getAuth = (login: string, password: string | number) => {
 
         if (!session) {
             try {
-                const res = await fetch('http://localhost:5000/api/auth/login', {
+                const res = await fetch('https://littletail.onrender.com/api/auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

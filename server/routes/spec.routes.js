@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
-import express, { Request, Response } from 'express';
+import express from 'express';
 import Specs from '../models/Specs.js';
-import { specT } from '../../src/types/PetType';
 
 const router = express.Router();
 
 // eslint-disable-next-line @typescript-eslint/require-await
-router.post('/spec', async (req: Request, res: Response) => {
+router.post('/spec', async (req, res) => {
     try {
         const specs = req.body;
 
         if (Array.isArray(specs)) {
             for (const spec of specs) {
-                const { id, name, type } = spec as specT;
+                const { id, name, type } = spec;
                 const newSpec = new Specs({ id, name, type });
                 await newSpec.save();
             }

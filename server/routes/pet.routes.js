@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express, { Request, Response } from 'express';
-import { PetT } from '../../src/types/PetType';
+import express from 'express';
 import Pets from '../models/Pets.js';
 import Specs from '../models/Specs.js';
 import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/pets', async (req: Request, res: Response) => {
+router.post('/pets', async (req, res) => {
     try {
-        const pets = req.body as PetT[];
+        const pets = req.body;
 
         if (Array.isArray(pets)) {
             for (const pet of pets) {
@@ -27,7 +26,7 @@ router.post('/pets', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/pets', auth, async (req: Request, res: Response) => {
+router.get('/pets', auth, async (req, res) => {
     try {
         const { limit, pageNumber, allData } = req.query;
         if (!+allData) {

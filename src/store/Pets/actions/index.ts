@@ -17,7 +17,7 @@ export const getAnimals = (props?: { pageNumber?: number; allData?: 1 | 0 }) => 
             const accessToken = localStorage.getItem('access_token');
 
             const res = await fetch(
-                `http://localhost:5000/api/pets?limit=5&pageNumber=${props.pageNumber}&allData=${props.allData}`,
+                `https://littletail.onrender.com/api/pets?limit=5&pageNumber=${props.pageNumber}&allData=${props.allData}`,
                 {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 }

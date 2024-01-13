@@ -12,11 +12,14 @@ export const getToday = (props?: { pageNumber?: number }) => {
         const accessToken = localStorage.getItem('access_token');
 
         try {
-            const res = await fetch(`http://localhost:5000/api/today?limit=5&pageNumber=${props.pageNumber}`, {
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken,
-                },
-            });
+            const res = await fetch(
+                `https://littletail.onrender.com/api/today?limit=5&pageNumber=${props.pageNumber}`,
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                    },
+                }
+            );
 
             const today = await res.json();
             dispatch({

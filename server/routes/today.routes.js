@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express, { Request, Response } from 'express';
+import express from 'express';
 import TodaySchema from '../models/Today.js';
 import Pets from '../models/Pets.js';
 import Therapy from '../models/Therapy.js';
@@ -7,15 +7,15 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-export type TODAY_POST_DATA = {
-    petId: string;
-    dateTime: Date;
-    therapyId: string;
-};
+// export type TODAY_POST_DATA = {
+//     petId: string;
+//     dateTime: Date;
+//     therapyId: string;
+// };
 
-router.post('/today', async (req: Request, res: Response) => {
+router.post('/today', async (req, res) => {
     try {
-        const { petId, dateTime, therapyId } = req.body as TODAY_POST_DATA;
+        const { petId, dateTime, therapyId } = req.body;
 
         const pet = await Pets.findById(petId);
         const therapy = await Therapy.findById(therapyId);
@@ -32,7 +32,7 @@ router.post('/today', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/today', auth, async (req: Request, res: Response) => {
+router.get('/today', auth, async (req, res) => {
     try {
         const { limit, pageNumber } = req.query;
 
@@ -49,7 +49,7 @@ router.get('/today', auth, async (req: Request, res: Response) => {
     }
 });
 
-router.delete('/today', auth, async (req: Request, res: Response) => {
+router.delete('/today', auth, async (req, res) => {
     try {
         const { id } = req.body;
 
