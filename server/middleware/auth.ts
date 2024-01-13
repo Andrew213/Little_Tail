@@ -1,6 +1,5 @@
 import type { Response, Request, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import config from 'config';
 
 const auth = (req: Request & { user: unknown }, res: Response, next: NextFunction) => {
     if (req.method === 'OPTIONS') {
@@ -14,7 +13,7 @@ const auth = (req: Request & { user: unknown }, res: Response, next: NextFunctio
             return res.status(401).json({ message: 'Auth error' });
         }
 
-        const decoded = jwt.verify(token, config.get('secretKey'));
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         req.user = decoded;
         next();

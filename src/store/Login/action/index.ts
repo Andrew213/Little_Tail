@@ -28,7 +28,6 @@ export const checkSession = () => {
                     user: response.user as userT,
                 });
             }
-            // const user = localStorage.getItem('user');
         } else {
             dispatch({
                 type: LoginActionType.INIT_SESSION_ERROR,

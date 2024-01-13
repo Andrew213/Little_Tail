@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import config from 'config';
 import jwt from 'jsonwebtoken';
 import { check, validationResult } from 'express-validator';
 import User from '../models/User.js';
@@ -56,7 +55,7 @@ router.post('/login', async (req: Request, res: Response) => {
             return res.status(400).json({ message: `Invalid password`, status: 400 });
         }
 
-        const token = jwt.sign({ id: user.id }, config.get('secretKey'), { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         return res.json({
             token,
@@ -76,7 +75,9 @@ router.post('/login', async (req: Request, res: Response) => {
 router.get('/auth', auth, async (req: Request & { user: { id: string } }, res: Response) => {
     try {
         const user = await User.findOne({ _id: req.user.id });
-        const token = jwt.sign({ id: user.id }, config.get('secretKey'), { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        console.log(`token `, token);
 
         return res.json({
             token,

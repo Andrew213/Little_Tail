@@ -1,5 +1,0 @@
-{
-    "serverPort": 5000,
-    "dbUrl" : "mongodb+srv://dbUser:dbUserAndrew123@cluster0.zenbgct.mongodb.net/?retryWrites=true&w=majority",
-    "secretKey": "superSecretKey3113"
-}
