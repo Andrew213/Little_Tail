@@ -7,21 +7,14 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-// export type TODAY_POST_DATA = {
-//     petId: string;
-//     dateTime: Date;
-//     therapyId: string;
-// };
-
 router.post('/today', async (req, res) => {
     try {
         const { petId, dateTime, therapyId } = req.body;
 
+        console.log(` req.body `, req.body);
+
         const pet = await Pets.findById(petId);
         const therapy = await Therapy.findById(therapyId);
-
-        delete pet.spec.id;
-        delete therapy.id;
 
         const todaySchema = new TodaySchema({ pet, therapy, dateTime });
         await todaySchema.save();

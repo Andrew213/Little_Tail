@@ -4,7 +4,6 @@ export const SpecSchema = new Schema({
     id: {
         type: Number,
         required: true,
-        unique: true,
     },
     name: { type: String, required: true },
     type: { type: String, required: true },

@@ -2,12 +2,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import { getTodayAction } from '../interfaces';
 import { TodayState } from '../TodayState';
 import { TodayActionTypes } from './action-types';
-import { PetT } from '@/types/PetType';
-import { TherapyT } from '@/types/Therapy';
 
 type TODAY_POST_DATA = {
-    pet: PetT;
-    therapy: TherapyT;
+    petId: string;
+    therapyId: string;
     dateTime: number;
 };
 
