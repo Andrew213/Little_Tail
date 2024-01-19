@@ -37,7 +37,12 @@ export const checkSession = () => {
     };
 };
 
-export const getAuth = (login: string, password: string | number) => {
+export type signInT = {
+    login: string;
+    password: string;
+};
+
+export const getAuth = (data: signInT) => {
     return async (dispatch: ThunkDispatch<LoginState, void, LoginAction>, getState: () => RootState) => {
         dispatch({
             type: LoginActionType.REQUEST_LOGIN,
@@ -54,47 +59,67 @@ export const getAuth = (login: string, password: string | number) => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email: login, password }),
+                    body: JSON.stringify({ email: data.login, password: data.password }),
                 });
 
                 if (res?.status === 400) {
-                    dispatch(fetchLoginErrorAC('Неверный логин или пароль'));
                     dispatch({
                         type: LoginActionType.INIT_SESSION_ERROR,
-                        errMsg: 'err',
+                        errMsg: 'Неверный логин или пароль',
                     });
                     return;
                 }
 
                 if (res?.status === 404) {
-                    dispatch(fetchLoginErrorAC('Пользователь не найден'));
                     dispatch({
                         type: LoginActionType.INIT_SESSION_ERROR,
-                        errMsg: 'err',
+                        errMsg: 'Пользователь не найден',
                     });
                     return;
                 }
 
-                // if (res.status === 400) {
-                //     dispatch(fetchLoginErrorAC('Неверный логин или пароль'));
-                //     dispatch({
-                //         type: LoginActionType.INIT_SESSION_ERROR,
-                //         errMsg: 'err',
-                //     });
-                // } else {
                 const session = await res.json();
                 localStorage.setItem('access_token', `${session.token}`);
-                // localStorage.setItem('user', JSON.stringify(session.user));
-                dispatch(receiveLoginAC());
+                // dispatch(receiveLoginAC());
                 dispatch({
                     type: LoginActionType.INIT_SESSION_SUCCESS,
                     user: session.user,
                 });
-                // }
             } catch (err) {
                 dispatch(fetchLoginErrorAC(err as string));
                 console.log(err);
             }
+        }
+    };
+};
+
+export type signUpT = {
+    login: string;
+    password: string | number;
+    first_name: string;
+    last_name: string;
+};
+
+export const signUp = (data: signUpT): any => {
+    return async (dispatch: ThunkDispatch<LoginState, void, LoginAction>) => {
+        try {
+            const response = await fetch('https://littletail.onrender.com/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const session = await response.json();
+            localStorage.setItem('access_token', `${session.token}`);
+            dispatch({
+                type: LoginActionType.INIT_SESSION_SUCCESS,
+                user: session.user,
+            });
+            return session;
+        } catch (err) {
+            return err;
         }
     };
 };

@@ -29,10 +29,26 @@ export interface fetchLoginErrorI {
     errMsg: string;
 }
 
+export interface requestSignUpI {
+    type: LoginActionType.REQUSET_SIGNUP;
+}
+
+export interface receiveSignUpI {
+    type: LoginActionType.RECEIVE_SIGNUP;
+}
+
+export interface errorSignUpI {
+    type: LoginActionType.ERROR_SIGNUP;
+    errMsg: string;
+}
+
 export type LoginAction =
     | requestLoginI
     | receiveLoginI
     | fetchLoginErrorI
     | INIT_SESSION_I
     | INIT_SESSION_SUCCESS_I
-    | INIT_SESSION_ERROR_I;
+    | INIT_SESSION_ERROR_I
+    | requestSignUpI
+    | receiveSignUpI
+    | errorSignUpI;
