@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import PetModal from '@/components/Pets/components/PetModal/PetModal';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styles from './styles.module.scss';
 import dayjs, { Dayjs } from 'dayjs';
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import useAction from '@/hooks/useAction';
 
@@ -19,7 +19,7 @@ interface TodayCardProps {
     time: Dayjs;
     type: string;
     id: string;
-    setTodayListReload: (a: (prev: boolean) => boolean) => void;
+    setTodayListReload: Dispatch<SetStateAction<boolean>>;
 }
 
 const TodayCard: React.FC<TodayCardProps> = props => {
@@ -30,9 +30,10 @@ const TodayCard: React.FC<TodayCardProps> = props => {
     const [showCard, setShowCard] = React.useState(false);
 
     const deleteToday = async () => {
-        const foo = await DeleteToday(id);
-        if (foo) {
+        const response = await DeleteToday(id);
+        if (response) {
             setTodayListReload(prev => !prev);
+            void message.success('Запись удалена');
         }
     };
 

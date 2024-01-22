@@ -4,9 +4,35 @@
     background-color: #fff;
     position: relative;
     border-radius: 10px;
-
+    position: relative;
     & + & {
         margin-top: 20px;
+    }
+
+    &__body {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    &__cell {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__cellTitle {
+        font-weight: 600;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #0674ec;
+    }
+
+    &__cellText {
+        font-size: 15px;
+        font-weight: 600;
+        & > span {
+            margin: 0;
+        }
     }
 
     &::after {
@@ -46,6 +72,13 @@
             transition: color 0.3s;
             color: #0674ec;
         }
+    }
+
+    &__btn_delete {
+        position: absolute;
+        right: -50px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     &__name {

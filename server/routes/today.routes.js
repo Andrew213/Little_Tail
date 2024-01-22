@@ -44,9 +44,8 @@ router.delete('/today', auth, async (req, res) => {
     try {
         const { id } = req.body;
 
-        const therapiesList = await TodaySchema.findByIdAndDelete(id);
+        await TodaySchema.findByIdAndDelete(id);
 
-        console.log(`after delete `, therapiesList);
         res.send({ status: 'ok' });
     } catch (error) {
         console.log(`error `, error);

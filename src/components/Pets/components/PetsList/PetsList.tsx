@@ -53,6 +53,8 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
                         return (
                             <PetCard
                                 key={el._id}
+                                setPetsListReload={setReload}
+                                id={el._id}
                                 name={el.name}
                                 breed={el.spec.name}
                                 age={el.age}
