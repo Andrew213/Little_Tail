@@ -1,11 +1,12 @@
 import { checkSession, signIn, signUp } from './Login/action';
-import { getAnimals } from './Pets/actions';
+import { getAnimals, postAnimal } from './Pets/actions';
 import { getTherapiesList } from './Therapy/actions/getTherapiesList';
 import { getToday } from './Today/actions/getToday';
 import { createToday } from './Today/actions/createToday';
 import { deleteToday } from './Today/actions/deleteToday';
 export const CheckSession = checkSession;
 export const GetAnimals = getAnimals;
+export const PostAnimal = postAnimal;
 export const GetToday = getToday;
 export const GetTherapies = getTherapiesList;
 export const CreateToday = createToday;

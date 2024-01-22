@@ -1,3 +1,4 @@
+import { PetT } from '@/types/PetType';
 import { PetsActionType } from '../actions/action-types';
 
 export interface requestPetsI {
@@ -6,7 +7,8 @@ export interface requestPetsI {
 
 export interface receivePetsI {
     type: PetsActionType.RECEIVE_PETS;
-    petsListing: any[];
+    petsListing: PetT[];
+    total: number;
 }
 
 export interface fetchPetsErrorI {

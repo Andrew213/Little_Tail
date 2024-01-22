@@ -1,6 +1,8 @@
 import React from 'react';
-import PetModal from '@/components/Pets/PetModal/PetModal';
+import PetModal from '@/components/Pets/components/PetModal/PetModal';
 import styles from './styles.module.scss';
+import { tagType } from '../SpecSelect/SpecSelect';
+import { specT } from '@/types/PetType';
 
 interface PetCardI {
     name: string;
@@ -10,9 +12,10 @@ interface PetCardI {
     heightUnit: string;
     weight: number;
     weightUnit: string;
+    spec: specT;
 }
 
-const PetCard: React.FC<PetCardI> = ({ name, age, breed, height, weight, heightUnit, weightUnit }) => {
+const PetCard: React.FC<PetCardI> = ({ name, age, breed, height, weight, heightUnit, weightUnit, spec }) => {
     const [showCard, setShowCard] = React.useState(false);
 
     const handleShowCard = React.useCallback(() => {
@@ -28,6 +31,7 @@ const PetCard: React.FC<PetCardI> = ({ name, age, breed, height, weight, heightU
             <button className={styles.pet__btn} onClick={handleShowCard}>
                 <h3 className={styles.pet__name}>{name}</h3>
                 <p className={styles.pet__specName}>{breed}</p>
+                <p>{tagType(spec.type)}</p>
             </button>
             <PetModal
                 name={name}

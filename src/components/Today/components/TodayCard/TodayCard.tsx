@@ -1,4 +1,5 @@
-import PetModal from '@/components/Pets/PetModal/PetModal';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import PetModal from '@/components/Pets/components/PetModal/PetModal';
 import React from 'react';
 
 import styles from './styles.module.scss';

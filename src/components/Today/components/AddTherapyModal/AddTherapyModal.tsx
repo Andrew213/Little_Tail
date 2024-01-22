@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { DatePicker, Form, Modal, ModalProps, TimePicker } from 'antd';
 import TherapySelect from '../TherapySelect/TherapySelect';
 import PetsSelect from '../PetsSelect/PetsSelect';
@@ -6,7 +7,7 @@ import locale from 'antd/es/date-picker/locale/ru_RU';
 import 'dayjs/locale/ru';
 import { useForm } from 'antd/es/form/Form';
 import useAction from '@/hooks/useAction';
-import { TODAY_POST_DATA } from 'server/routes/today.routes';
+import { TODAY_POST_DATA } from '@/store/Today/actions/createToday';
 
 interface AddTherapyModal extends ModalProps {
     setVisible: (a: boolean) => void;

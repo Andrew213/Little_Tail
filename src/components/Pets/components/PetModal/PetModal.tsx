@@ -50,16 +50,14 @@ const PetModal: React.FC<PetModalI> = ({
                     <li className={cn(styles.pet__item, styles.pet__item_height)}>
                         <span className={cn(styles.pet__itemTite, styles.pet__itemTite_purpure)}>Рост: </span>
                         <span className={cn(styles.pet__itemText, styles.pet__itemText_purpure)}>
-                            {`${height} ${heightUnit}.`}
+                            {`${height} см.`}
                         </span>
                     </li>
                 )}
                 {weight && (
                     <li className={cn(styles.pet__item, styles.pet__item_weight)}>
                         <span className={cn(styles.pet__itemTite, styles.pet__itemTite_blue)}>Вес: </span>
-                        <span className={cn(styles.pet__itemText, styles.pet__itemText_blue)}>
-                            {`${weight} ${weightUnit}`}
-                        </span>
+                        <span className={cn(styles.pet__itemText, styles.pet__itemText_blue)}>{`${weight} кг`}</span>
                     </li>
                 )}
             </ul>

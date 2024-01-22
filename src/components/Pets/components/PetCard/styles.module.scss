@@ -37,7 +37,7 @@
         height: 100%;
         display: flex;
         align-items: baseline;
-        justify-content: space-between;
+        justify-content: space-around;
         &:hover .pet__name {
             transition: color 0.3s;
             color: #0674ec;

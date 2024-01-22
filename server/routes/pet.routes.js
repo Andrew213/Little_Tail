@@ -6,20 +6,26 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/pets', async (req, res) => {
+router.post('/pets', auth, async (req, res) => {
     try {
-        const pets = req.body;
+        const data = req.body;
 
-        if (Array.isArray(pets)) {
-            for (const pet of pets) {
-                const { specId } = pet;
-                const spec = await Specs.findOne({ id: specId });
+        const { specId } = data;
+        const spec = await Specs.findOne({ id: specId });
+        const petSchema = new Pets({ ...data, spec });
+        await petSchema.save();
 
-                const petSchema = new Pets({ ...pet, spec });
-                await petSchema.save();
-            }
-        }
-        return res.json({ message: 'Pets was saved' });
+        return res.json({ message: 'Питомец добавлен' });
+
+        // if (Array.isArray(pets)) {
+        //     for (const pet of pets) {
+        //         const { specId } = pet;
+        //         const spec = await Specs.findOne({ id: specId });
+
+        //         const petSchema = new Pets({ ...pet, spec });
+        //         await petSchema.save();
+        //     }
+        // }
     } catch (error) {
         console.log(`error `, error);
         res.send({ message: 'server error' });
@@ -29,18 +35,18 @@ router.post('/pets', async (req, res) => {
 router.get('/pets', auth, async (req, res) => {
     try {
         const { limit, pageNumber, allData } = req.query;
+        const total = await Pets.countDocuments();
+
         if (!+allData) {
             const skip = (+pageNumber - 1) * +limit;
 
-            const pets = await Pets.find({})
-                .limit(+limit)
-                .skip(skip);
+            const pets = await Pets.find({}).limit(+limit).skip(skip);
 
-            return res.json(pets);
+            return res.json({ pets, total });
         } else {
             const pets = await Pets.find({});
 
-            return res.json(pets);
+            return res.json({ pets, total });
         }
     } catch (error) {
         console.log(`error `, error);

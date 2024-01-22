@@ -31,9 +31,7 @@ router.get('/today', auth, async (req, res) => {
 
         const skip = (+pageNumber - 1) * +limit;
 
-        const therapiesList = await TodaySchema.find({})
-            .limit(+limit)
-            .skip(skip);
+        const therapiesList = await TodaySchema.find({}).limit(+limit).skip(skip);
 
         return res.json(therapiesList);
     } catch (error) {

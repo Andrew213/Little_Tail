@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useNavigate } from 'react-router-dom';
 import useAction from '@/hooks/useAction';
 import Loader from '@/lib/Loader/Loader';
-import TodayCard from './TodayCard/TodayCard';
+import TodayCard from './components/TodayCard/TodayCard';
 
 import styles from './styles.module.scss';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import AddTherapyModal from './AddTherapyModal/AddTherapyModal';
+import AddTherapyModal from './components/AddTherapyModal/AddTherapyModal';
 import dayjs from 'dayjs';
 
 const Today: React.FC = () => {
@@ -18,8 +17,6 @@ const Today: React.FC = () => {
     const {
         Today: { isLoading, todayListing },
     } = useTypedSelector(state => state);
-
-    const navigate = useNavigate();
 
     React.useEffect(() => {
         GetToday({ pageNumber: 1 });
