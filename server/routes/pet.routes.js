@@ -54,4 +54,17 @@ router.get('/pets', auth, async (req, res) => {
     }
 });
 
+router.delete('/pets', auth, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        await Pets.findByIdAndDelete(id);
+
+        res.send({ status: 'ok' });
+    } catch (error) {
+        console.log(`error `, error);
+        res.send({ message: 'server error', error, status: 'error' });
+    }
+});
+
 export default router;

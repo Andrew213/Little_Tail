@@ -1,5 +1,5 @@
 import { checkSession, signIn, signUp } from './Login/action';
-import { getAnimals, postAnimal } from './Pets/actions';
+import { deleteAnimal, getAnimals, postAnimal } from './Pets/actions';
 import { getTherapiesList } from './Therapy/actions/getTherapiesList';
 import { getToday } from './Today/actions/getToday';
 import { createToday } from './Today/actions/createToday';
@@ -13,3 +13,4 @@ export const CreateToday = createToday;
 export const DeleteToday = deleteToday;
 export const SignIn = signIn;
 export const SignUp = signUp;
+export const DeletePet = deleteAnimal;

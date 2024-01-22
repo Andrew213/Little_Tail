@@ -1,14 +1,9 @@
 export const deleteToday = (id: string) => {
     return async () => {
-        // dispatch({
-        //     type: TodayActionTypes.REQUEST_CREATE_TODAY,
-        //     isLoading: false,
-        // });
-
         const accessToken = localStorage.getItem('access_token');
 
         try {
-            const foo = await fetch('https://littletail.onrender.com/api/today', {
+            const response = await fetch('https://littletail.onrender.com/api/today', {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + accessToken,
@@ -16,14 +11,12 @@ export const deleteToday = (id: string) => {
                 },
                 body: JSON.stringify({ id }),
             });
-            const response = await foo.json();
-            if (response.status === 'ok') {
+            if (response.status === 200) {
                 return true;
             }
             return false;
         } catch (err) {
             return err;
-            // dispatch({ type: TodayActionTypes.FETCH_CREATE_TODAY_ERROR, isLoading: false, errMsg: err });
         }
     };
 };
