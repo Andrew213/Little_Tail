@@ -1,5 +1,4 @@
 import { ThunkDispatch } from 'redux-thunk';
-import { receiveLoginAC, fetchLoginErrorAC } from './action-creators/index';
 import { LoginActionType } from './action-types/index';
 import { LoginState } from '../LoginState';
 import { LoginAction } from '../interfaces';
@@ -9,30 +8,46 @@ import { userT } from '@/types/userType';
 
 export const checkSession = () => {
     return async (dispatch: Dispatch<LoginAction>) => {
-        dispatch({
-            type: LoginActionType.INIT_SESSION,
-        });
-
-        const access_token = localStorage.getItem('access_token');
-
-        if (access_token) {
-            const res = await fetch('https://littletail.onrender.com/api/auth/auth', {
-                headers: { Authorization: `Bearer ${access_token}` },
+        try {
+            dispatch({
+                type: LoginActionType.INIT_SESSION,
             });
 
-            const response = await res.json();
+            const access_token = localStorage.getItem('access_token');
 
-            if (response.user) {
+            if (access_token) {
+                const res = await fetch('https://littletail.onrender.com/api/auth/auth', {
+                    headers: { Authorization: `Bearer ${access_token}` },
+                });
+
+                if (res.status === 404) {
+                    dispatch({
+                        type: LoginActionType.FETCH_LOGIN_ERROR,
+                        errMsg: 'Пользователь не найден',
+                    });
+                }
+
+                const response = await res.json();
+
+                if (response.user) {
+                    dispatch({
+                        type: LoginActionType.INIT_SESSION_SUCCESS,
+                        user: response.user as userT,
+                    });
+                }
+            } else {
                 dispatch({
-                    type: LoginActionType.INIT_SESSION_SUCCESS,
-                    user: response.user as userT,
+                    type: LoginActionType.INIT_SESSION_ERROR,
+                    errMsg: 'Не авторизованы',
                 });
             }
-        } else {
+        } catch (err) {
             dispatch({
                 type: LoginActionType.INIT_SESSION_ERROR,
-                errMsg: 'no  auth',
+                errMsg: err.message,
             });
+
+            console.log(`auth error`, err);
         }
     };
 };
@@ -42,7 +57,7 @@ export type signInT = {
     password: string;
 };
 
-export const getAuth = (data: signInT) => {
+export const signIn = (data: signInT) => {
     return async (dispatch: ThunkDispatch<LoginState, void, LoginAction>, getState: () => RootState) => {
         dispatch({
             type: LoginActionType.REQUEST_LOGIN,
@@ -59,12 +74,12 @@ export const getAuth = (data: signInT) => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email: data.login, password: data.password }),
+                    body: JSON.stringify(data),
                 });
 
                 if (res?.status === 400) {
                     dispatch({
-                        type: LoginActionType.INIT_SESSION_ERROR,
+                        type: LoginActionType.FETCH_LOGIN_ERROR,
                         errMsg: 'Неверный логин или пароль',
                     });
                     return;
@@ -72,21 +87,25 @@ export const getAuth = (data: signInT) => {
 
                 if (res?.status === 404) {
                     dispatch({
-                        type: LoginActionType.INIT_SESSION_ERROR,
+                        type: LoginActionType.FETCH_LOGIN_ERROR,
                         errMsg: 'Пользователь не найден',
                     });
                     return;
                 }
 
                 const session = await res.json();
-                localStorage.setItem('access_token', `${session.token}`);
-                // dispatch(receiveLoginAC());
-                dispatch({
-                    type: LoginActionType.INIT_SESSION_SUCCESS,
-                    user: session.user,
-                });
+                if (session.token) {
+                    localStorage.setItem('access_token', `${session.token}`);
+                    dispatch({
+                        type: LoginActionType.INIT_SESSION_SUCCESS,
+                        user: session.user,
+                    });
+                }
             } catch (err) {
-                dispatch(fetchLoginErrorAC(err as string));
+                dispatch({
+                    type: LoginActionType.FETCH_LOGIN_ERROR,
+                    errMsg: 'Какая-то ошибка',
+                });
                 console.log(err);
             }
         }
@@ -112,13 +131,28 @@ export const signUp = (data: signUpT): any => {
             });
 
             const session = await response.json();
-            localStorage.setItem('access_token', `${session.token}`);
-            dispatch({
-                type: LoginActionType.INIT_SESSION_SUCCESS,
-                user: session.user,
-            });
-            return session;
+
+            if (response.status === 400) {
+                dispatch({
+                    type: LoginActionType.FETCH_LOGIN_ERROR,
+                    errMsg: 'Пользователь с таким логином уже существует',
+                });
+            }
+
+            if (response.status === 200) {
+                localStorage.setItem('access_token', `${session.token}`);
+                dispatch({
+                    type: LoginActionType.INIT_SESSION_SUCCESS,
+                    user: session.user,
+                });
+                return session;
+            }
         } catch (err) {
+            dispatch({
+                type: LoginActionType.FETCH_LOGIN_ERROR,
+                errMsg: err,
+            });
+
             return err;
         }
     };
