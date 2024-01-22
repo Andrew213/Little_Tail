@@ -1,15 +1,17 @@
 import React from 'react';
-import { Pagination } from 'antd';
+import { Button, Pagination } from 'antd';
 import qs from 'qs';
 import { createBrowserHistory } from 'history';
 
 import styles from './styles.module.scss';
-import PetsList from './PetsList/PetsList';
+import PetsList from './components/PetsList/PetsList';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 
-const PetsPagination: React.FC = () => {
+const Pets: React.FC = () => {
     const history = createBrowserHistory();
     const filterParams = history.location.search.substr(1);
     const filtersFromParams = qs.parse(filterParams);
+    const { total } = useTypedSelector(state => state.Pets);
 
     const [currentPage, setCurrentPage] = React.useState(filtersFromParams.page || 1);
 
@@ -30,7 +32,7 @@ const PetsPagination: React.FC = () => {
             <Pagination
                 current={currentPage as number}
                 className={styles.pagination}
-                total={23}
+                total={total}
                 onChange={handeonChange}
                 defaultPageSize={5}
             />
@@ -38,4 +40,4 @@ const PetsPagination: React.FC = () => {
     );
 };
 
-export default PetsPagination;
+export default Pets;

@@ -23,10 +23,10 @@ export const getAnimals = (props?: { pageNumber?: number; allData?: 1 | 0 }) => 
                 }
             );
 
-            const petsList = await res.json();
+            const { pets, total } = await res.json();
 
-            if (petsList) {
-                dispatch(receivePetsAC(petsList as PetT[]));
+            if (pets) {
+                dispatch(receivePetsAC(pets as PetT[], total as number));
             } else {
                 dispatch({ type: LoginActionType.INIT_SESSION_ERROR, errMsg: 'Истекло время токена' });
             }
@@ -36,6 +36,27 @@ export const getAnimals = (props?: { pageNumber?: number; allData?: 1 | 0 }) => 
                 type: PetsActionType.FETCH_PETS_ERROR,
                 errMsg: err,
             });
+        }
+    };
+};
+
+export const postAnimal = (props: PetT) => {
+    return async () => {
+        try {
+            const accessToken = localStorage.getItem('access_token');
+
+            const response = await fetch('https://littletail.onrender.com/api/pets', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(props),
+            }).then(res => res.json());
+
+            return response;
+        } catch (error) {
+            return error;
         }
     };
 };

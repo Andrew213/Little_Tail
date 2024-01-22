@@ -24,7 +24,7 @@ export const TodayReducer = (state: TodayState = InitialState, action: getTodayA
         case TodayActionTypes.FETCH_CREATE_TODAY_ERROR:
             return { ...state, errMsg: action.errMsg, createLoading: action.isLoading };
         case TodayActionTypes.REQUEST_CREATE_TODAY:
-            return { ...state, createLoading: action.isLoading };
+            return { ...state, createLoading: true };
         default:
             return state;
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Navigation from './components/Navigation/Navigation';
-import PetsPagination from './components/Pets/PetsPagination';
+import Pets from './components/Pets/Pets';
 import Today from './components/Today/Today';
 import useAction from './hooks/useAction';
 import { useTypedSelector } from './hooks/useTypedSelector';
@@ -40,7 +40,7 @@ const App: React.FC = () => {
                     {sessionLoading && <Loader className="loader" />}
                     {session && !sessionLoading && (
                         <Routes>
-                            <Route path="/animals" element={<PetsPagination />} />
+                            <Route path="/animals" element={<Pets />} />
                             <Route path="/today" element={<Today />} />
                         </Routes>
                     )}

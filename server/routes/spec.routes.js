@@ -25,4 +25,14 @@ router.post('/spec', async (req, res) => {
     }
 });
 
+router.get('/spec', async (req, res) => {
+    try {
+        const specs = await Specs.find({});
+        return res.json(specs);
+    } catch (error) {
+        console.log(`err `, error);
+        res.send({ message: 'server error' });
+    }
+});
+
 export default router;
