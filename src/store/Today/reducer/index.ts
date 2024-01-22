@@ -3,7 +3,7 @@ import { getTodayAction } from '../interfaces';
 import { TodayState } from '../TodayState';
 
 const InitialState: TodayState = {
-    isLoading: false,
+    isLoading: true,
     errMsg: '',
     todayListing: [],
     createLoading: false,

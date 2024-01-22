@@ -43,7 +43,6 @@ router.post(
             const token = jwt.sign({ id: savedUSer.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
             return res.json({
-                status: 200,
                 token,
                 user: {
                     id: user.id,
@@ -61,9 +60,9 @@ router.post(
 
 router.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { login, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ login });
 
         if (!user) {
             return res.status(404).json({ message: `User not found`, status: 404 });
@@ -75,8 +74,6 @@ router.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        console.log(`token `, token);
 
         return res.json({
             token,
@@ -96,6 +93,9 @@ router.post('/login', async (req, res) => {
 router.get('/auth', auth, async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.user.id });
+        if (!user) {
+            return res.status(404).json({ message: `User not found`, status: 404 });
+        }
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         return res.json({
