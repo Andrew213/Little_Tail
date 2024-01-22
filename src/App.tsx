@@ -1,23 +1,33 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Navigation from './components/Navigation/Navigation';
 import PetsPagination from './components/Pets/PetsPagination';
 import Today from './components/Today/Today';
 import useAction from './hooks/useAction';
 import { useTypedSelector } from './hooks/useTypedSelector';
-// import 'antd/dist/antd.css';
+import Loader from './lib/Loader/Loader';
 import './styles/App.scss';
+
 const App: React.FC = () => {
     const { CheckSession } = useAction();
+    const navigate = useNavigate();
 
     const {
-        Session: { session },
+        Session: { session, sessionLoading, errMsg },
     } = useTypedSelector(state => state);
 
     React.useEffect(() => {
         CheckSession();
     }, []);
+
+    React.useEffect(() => {
+        console.log(`errMsg `, errMsg);
+        if (errMsg) {
+            navigate('/');
+        }
+    }, [errMsg]);
+
     return (
         <>
             <header className="header">
@@ -28,13 +38,16 @@ const App: React.FC = () => {
             </header>
             <main>
                 <div className="fixed-container">
-                    <div className="routes">
+                    {sessionLoading && <Loader className="loader" />}
+                    {session && !sessionLoading && (
                         <Routes>
-                            <Route path="/animals" element={session ? <PetsPagination /> : <Login />} />
-                            <Route path="/today" element={session ? <Today /> : <Login />} />
-                            <Route path="/" element={<Login />} />
+                            <Route path="/animals" element={<PetsPagination />} />
+                            <Route path="/today" element={<Today />} />
                         </Routes>
-                    </div>
+                    )}
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                    </Routes>
                 </div>
             </main>
         </>

@@ -24,7 +24,7 @@ export const getTherapiesList = () => {
             } else {
                 dispatch({
                     type: TherapiesActionTypes.FETCH_THERAPIES_ERROR,
-                    errMsg: 'no auth',
+                    errMsg: 'Не авторизованы',
                 });
             }
         } catch (error) {

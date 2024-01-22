@@ -29,7 +29,7 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
     }, [pageNum, session]);
 
     if (isLoading) {
-        return <Loader className={styles.loader} />;
+        return <Loader className="loader" />;
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useNavigate } from 'react-router-dom';
 import useAction from '@/hooks/useAction';
@@ -16,24 +16,19 @@ const Today: React.FC = () => {
     const [reload, setReload] = useState(false);
 
     const {
-        Session: { session },
         Today: { isLoading, todayListing },
     } = useTypedSelector(state => state);
 
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        if (!session) {
-            navigate('/');
-            return;
-        }
         GetToday({ pageNumber: 1 });
     }, [reload]);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     if (isLoading) {
-        return <Loader className={styles.loader} />;
+        return <Loader className="loader" />;
     }
 
     return (

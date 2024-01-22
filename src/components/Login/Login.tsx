@@ -1,23 +1,21 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from 'react';
-import { Form, Input, Button, Typography, notification, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Button, message } from 'antd';
 import cn from 'classnames';
 import useAction from '@/hooks/useAction';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useNavigate } from 'react-router-dom';
-import Loader from '@/lib/Loader/Loader';
 import styles from './styles.module.scss';
-import SignUp from './components/SignUpForm';
 import { signInT, signUpT } from '@/store/Login/action';
 
 const Login: React.FC = () => {
     const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
-    const { GetAuth, SignUp } = useAction();
+    const { SignIn, SignUp } = useAction();
 
     const {
-        Login: { isLoading, errMsg },
-        Session: { session },
+        Login: { loginLoading, errMsg },
+        Session: { session, errMsg: sessionErrMsg },
     } = useTypedSelector(state => state);
 
     const navigate = useNavigate();
@@ -25,19 +23,22 @@ const Login: React.FC = () => {
     const onSuccess = React.useCallback(
         async (values: signUpT | signInT) => {
             if (isSignUp) {
-                const foo = await SignUp(values as signUpT);
-                if (foo.status === 200) {
+                const response = await SignUp(values as signUpT);
+                if (response?.user) {
                     await message.open({ type: 'success', content: 'Успешно зарегистрировались' });
                 }
             } else {
-                GetAuth(values as signInT);
+                await SignIn(values as signInT);
             }
-            // const { login, password } = values;
         },
         [isSignUp]
     );
 
-    const [showErr, setShowErr] = React.useState<boolean>(false);
+    useEffect(() => {
+        if (errMsg || sessionErrMsg) {
+            void message.open({ type: 'error', content: errMsg || sessionErrMsg });
+        }
+    }, [errMsg, sessionErrMsg]);
 
     React.useEffect(() => {
         if (session) {
@@ -48,19 +49,6 @@ const Login: React.FC = () => {
     const onFail = React.useCallback((values: unknown) => {
         console.log(`Error `, values);
     }, []);
-
-    React.useEffect(() => {
-        if (errMsg) {
-            setShowErr(true);
-            setTimeout(() => {
-                setShowErr(false);
-            }, 2000);
-        }
-    }, [errMsg]);
-
-    if (isLoading) {
-        return <Loader className={styles.loader} />;
-    }
 
     return (
         <div className={styles.login}>
@@ -138,14 +126,13 @@ const Login: React.FC = () => {
                     </>
                 )}
 
-                {showErr && <span className={styles.login_error}>{errMsg}</span>}
                 <div
                     style={{
                         display: 'grid',
                         alignItems: 'center',
                     }}
                 >
-                    <Button type="primary" htmlType="submit" className={styles.login__btn}>
+                    <Button type="primary" loading={loginLoading} htmlType="submit" className={styles.login__btn}>
                         Вход
                     </Button>
 
