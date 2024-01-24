@@ -42,7 +42,10 @@ const PetCard: React.FC<PetCardI> = ({
 
     const deletePet = async () => {
         const response = await DeletePet(id);
-        if (response) {
+        console.log(`response `, response);
+        if (response instanceof Error) {
+            void message.error('Произошла ошибка');
+        } else {
             setPetsListReload(prev => !prev);
             void message.success('Запись удалена');
         }

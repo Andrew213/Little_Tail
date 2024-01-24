@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { DatePicker, Form, Modal, ModalProps, TimePicker } from 'antd';
+import { DatePicker, Form, Modal, ModalProps, TimePicker, message } from 'antd';
 import TherapySelect from '../TherapySelect/TherapySelect';
 import PetsSelect from '../PetsSelect/PetsSelect';
 import dayjs from 'dayjs';
@@ -32,7 +32,11 @@ const AddTherapyModal: React.FC<AddTherapyModal> = ({ setVisible, setTodayListRe
                     )}`
                 ),
             } as TODAY_POST_DATA);
+            if (res instanceof Error) {
+                void message.error('Произошла ошибка');
+            }
             if (res && (res as any).ok) {
+                void message.success('Запись создана');
                 setTodayListReload(prev => !prev);
             }
 
