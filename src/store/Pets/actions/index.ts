@@ -4,7 +4,7 @@ import { PetT } from '@/types/PetType';
 import { ThunkDispatch } from 'redux-thunk';
 import { PetsAction } from '../interfaces';
 import { PetsState } from '../PetsState';
-import { receivePetsAC, fetchPetsErrAC } from './action-creators';
+import { receivePetsAC } from './action-creators';
 import { PetsActionType } from './action-types';
 
 export const getAnimals = (props?: { pageNumber?: number; allData?: 1 | 0 }) => {
@@ -30,12 +30,13 @@ export const getAnimals = (props?: { pageNumber?: number; allData?: 1 | 0 }) => 
             } else {
                 dispatch({ type: LoginActionType.INIT_SESSION_ERROR, errMsg: 'Истекло время токена' });
             }
+            return res;
         } catch (err) {
-            console.log(`petsErr`, err);
             dispatch({
                 type: PetsActionType.FETCH_PETS_ERROR,
                 errMsg: err,
             });
+            return err;
         }
     };
 };
@@ -74,11 +75,7 @@ export const deleteAnimal = (id: string) => {
                 body: JSON.stringify({ id }),
             });
 
-            if (response.status === 200) {
-                return true;
-            }
-
-            return false;
+            return response;
         } catch (error) {
             return error;
         }

@@ -16,10 +16,10 @@ const PORT = process.env.SERVER_PORT || 8800;
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRouter);
-app.use('/api', specRouter);
-app.use('/api', petRouter);
-app.use('/api', therapyRouter);
-app.use('/api', todayRouter);
+app.use('/api/spec', specRouter);
+app.use('/api/pets', petRouter);
+app.use('/api/therapy', therapyRouter);
+app.use('/api/today', todayRouter);
 
 mongoose
     .connect(process.env.MONGO_CONNECTION)

@@ -26,8 +26,10 @@ export const getToday = (props?: { pageNumber?: number }) => {
                 type: TodayActionTypes.RECEIVE_TODAY,
                 todayList: today,
             });
+            return res;
         } catch (err) {
             dispatch({ type: TodayActionTypes.FETCH_TODAY_ERROR, errMsg: err });
+            return err;
         }
     };
 };

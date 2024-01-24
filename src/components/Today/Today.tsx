@@ -5,7 +5,7 @@ import Loader from '@/lib/Loader/Loader';
 import TodayCard from './components/TodayCard/TodayCard';
 
 import styles from './styles.module.scss';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import AddTherapyModal from './components/AddTherapyModal/AddTherapyModal';
 import dayjs from 'dayjs';
@@ -15,12 +15,18 @@ const Today: React.FC = () => {
     const [reload, setReload] = useState(false);
 
     const {
-        Today: { isLoading, todayListing },
+        Today: { isLoading, todayListing, errMsg },
     } = useTypedSelector(state => state);
 
     React.useEffect(() => {
         GetToday({ pageNumber: 1 });
     }, [reload]);
+
+    React.useEffect(() => {
+        if (errMsg) {
+            void message.error(errMsg);
+        }
+    }, [errMsg]);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 

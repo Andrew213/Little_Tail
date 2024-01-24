@@ -31,7 +31,9 @@ const TodayCard: React.FC<TodayCardProps> = props => {
 
     const deleteToday = async () => {
         const response = await DeleteToday(id);
-        if (response) {
+        if (response instanceof Error) {
+            void message.error('Что-то пошло не так');
+        } else {
             setTodayListReload(prev => !prev);
             void message.success('Запись удалена');
         }

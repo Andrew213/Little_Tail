@@ -11,10 +11,7 @@ export const deleteToday = (id: string) => {
                 },
                 body: JSON.stringify({ id }),
             });
-            if (response.status === 200) {
-                return true;
-            }
-            return false;
+            return response;
         } catch (err) {
             return err;
         }

@@ -36,6 +36,7 @@ export const createToday = (data: TODAY_POST_DATA) => {
             return await res.json();
         } catch (err) {
             dispatch({ type: TodayActionTypes.FETCH_CREATE_TODAY_ERROR, isLoading: false, errMsg: err });
+            return err;
         }
     };
 };
