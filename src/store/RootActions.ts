@@ -1,4 +1,4 @@
-import { checkSession, signIn, signUp } from './Login/action';
+import { checkSession, logout, signIn, signUp } from './Login/action';
 import { deleteAnimal, getAnimals, postAnimal } from './Pets/actions';
 import { getTherapiesList } from './Therapy/actions/getTherapiesList';
 import { getToday } from './Today/actions/getToday';
@@ -14,3 +14,4 @@ export const DeleteToday = deleteToday;
 export const SignIn = signIn;
 export const SignUp = signUp;
 export const DeletePet = deleteAnimal;
+export const LogOut = logout;

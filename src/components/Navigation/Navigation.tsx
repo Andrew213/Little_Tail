@@ -1,17 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '@img/logo.png';
-import { Typography, Menu, Avatar } from 'antd';
+import { Avatar, Dropdown, Button } from 'antd';
 import { YuqueOutlined, CarryOutOutlined } from '@ant-design/icons';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import cn from 'classnames';
 
 import styles from './styles.module.scss';
+import useAction from '@/hooks/useAction';
 
 const Navigation: React.FC = () => {
     const {
         Session: { session, user },
     } = useTypedSelector(state => state);
+    const { LogOut } = useAction();
+    const navigate = useNavigate();
 
     return (
         <nav className={styles.navbar}>
@@ -41,11 +44,38 @@ const Navigation: React.FC = () => {
                 </ul>
 
                 {session && (
-                    <div className={styles.user}>
-                        <p className={cn(styles.user__name, styles.user__name_firstName)}>{user.first_name}</p>
-                        <p className={cn(styles.user__name, styles.user__name_lastName)}>{user.last_name}</p>
-                        <Avatar className={styles.user__ava} src="https://avatar.iran.liara.run/public" />
-                    </div>
+                    <Dropdown
+                        menu={{
+                            items: [
+                                {
+                                    key: '1',
+                                    label: (
+                                        <Button
+                                            danger
+                                            style={{
+                                                width: '100%',
+                                            }}
+                                            onClick={() => {
+                                                LogOut();
+                                                navigate('/');
+                                            }}
+                                        >
+                                            Выйти
+                                        </Button>
+                                    ),
+                                },
+                            ],
+                        }}
+                    >
+                        <div className={styles.user}>
+                            <p className={cn(styles.user__name, styles.user__name_firstName)}>{user.first_name}</p>
+                            <p className={cn(styles.user__name, styles.user__name_lastName)}>{user.last_name}</p>
+                            <Avatar
+                                className={styles.user__ava}
+                                src="https://avatar.iran.liara.run/public/job/doctor/male"
+                            />
+                        </div>
+                    </Dropdown>
                 )}
             </div>
         </nav>

@@ -157,3 +157,10 @@ export const signUp = (data: signUpT): any => {
         }
     };
 };
+
+export const logout = () => {
+    return (dispatch: ThunkDispatch<LoginState, void, LoginAction>) => {
+        localStorage.removeItem('access_token');
+        dispatch({ type: LoginActionType.LOGOUT });
+    };
+};

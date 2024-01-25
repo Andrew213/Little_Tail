@@ -27,7 +27,8 @@ export const LoginReducer = (state: LoginState = LoginState, action: LoginAction
             };
         case LoginActionType.FETCH_LOGIN_ERROR:
             return { ...state, errMsg: action.errMsg, loginLoading: false };
-
+        case LoginActionType.LOGOUT:
+            return { ...state, access_token: '', loginLoading: false };
         default:
             return state;
     }
@@ -41,6 +42,8 @@ export const CheckSessionReducer = (state: SessionState = SessionState, action: 
             return { ...state, session: true, sessionLoading: false, user: action.user, errMsg: '' };
         case LoginActionType.INIT_SESSION_ERROR:
             return { ...state, session: false, sessionLoading: false, errMsg: action.errMsg };
+        case LoginActionType.LOGOUT:
+            return { ...state, session: false, user: null };
         default:
             return state;
     }
