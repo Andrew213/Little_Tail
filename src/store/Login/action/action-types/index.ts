@@ -8,4 +8,5 @@ export enum LoginActionType {
     REQUSET_SIGNUP = 'REQUEST_SIGNUP',
     RECEIVE_SIGNUP = 'RECEIVE_SIGNUP',
     ERROR_SIGNUP = 'ERROR_SIGNUP',
+    LOGOUT = 'LOGOUT',
 }

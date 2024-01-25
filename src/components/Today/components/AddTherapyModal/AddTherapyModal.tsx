@@ -1,4 +1,5 @@
-import { DatePicker, Form, Modal, ModalProps, TimePicker } from 'antd';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { DatePicker, Form, Modal, ModalProps, TimePicker, message } from 'antd';
 import TherapySelect from '../TherapySelect/TherapySelect';
 import PetsSelect from '../PetsSelect/PetsSelect';
 import dayjs from 'dayjs';
@@ -6,7 +7,7 @@ import locale from 'antd/es/date-picker/locale/ru_RU';
 import 'dayjs/locale/ru';
 import { useForm } from 'antd/es/form/Form';
 import useAction from '@/hooks/useAction';
-import { TODAY_POST_DATA } from 'server/routes/today.routes';
+import { TODAY_POST_DATA } from '@/store/Today/actions/createToday';
 
 interface AddTherapyModal extends ModalProps {
     setVisible: (a: boolean) => void;
@@ -31,7 +32,11 @@ const AddTherapyModal: React.FC<AddTherapyModal> = ({ setVisible, setTodayListRe
                     )}`
                 ),
             } as TODAY_POST_DATA);
+            if (res instanceof Error) {
+                void message.error('Произошла ошибка');
+            }
             if (res && (res as any).ok) {
+                void message.success('Запись создана');
                 setTodayListReload(prev => !prev);
             }
 

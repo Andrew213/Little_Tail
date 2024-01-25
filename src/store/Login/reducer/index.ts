@@ -4,12 +4,13 @@ import { LoginState, SessionState } from '../LoginState';
 
 const LoginState: LoginState = {
     access_token: '',
-    isLoading: false,
+    loginLoading: false,
     errMsg: '',
 };
 
 const SessionState: SessionState = {
     session: false,
+    sessionLoading: false,
     user: null,
     errMsg: '',
 };
@@ -17,16 +18,17 @@ const SessionState: SessionState = {
 export const LoginReducer = (state: LoginState = LoginState, action: LoginAction): LoginState => {
     switch (action.type) {
         case LoginActionType.REQUEST_LOGIN:
-            return { ...state, isLoading: true, errMsg: '' };
+            return { ...state, loginLoading: true, errMsg: '' };
         case LoginActionType.RECEIVE_LOGIN:
             return {
                 ...state,
-                isLoading: false,
+                loginLoading: false,
                 errMsg: '',
             };
         case LoginActionType.FETCH_LOGIN_ERROR:
-            return { ...state, errMsg: action.errMsg, isLoading: false };
-
+            return { ...state, errMsg: action.errMsg, loginLoading: false };
+        case LoginActionType.LOGOUT:
+            return { ...state, access_token: '', loginLoading: false };
         default:
             return state;
     }
@@ -35,11 +37,13 @@ export const LoginReducer = (state: LoginState = LoginState, action: LoginAction
 export const CheckSessionReducer = (state: SessionState = SessionState, action: LoginAction) => {
     switch (action.type) {
         case LoginActionType.INIT_SESSION:
-            return { ...state, isLoading: true, errMsg: '' };
+            return { ...state, sessionLoading: true, errMsg: '' };
         case LoginActionType.INIT_SESSION_SUCCESS:
-            return { ...state, session: true, user: action.user, errMsg: '' };
+            return { ...state, session: true, sessionLoading: false, user: action.user, errMsg: '' };
         case LoginActionType.INIT_SESSION_ERROR:
-            return { ...state, session: false, errMsg: action.errMsg };
+            return { ...state, session: false, sessionLoading: false, errMsg: action.errMsg };
+        case LoginActionType.LOGOUT:
+            return { ...state, session: false, user: null };
         default:
             return state;
     }

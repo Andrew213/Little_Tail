@@ -1,6 +1,5 @@
 .petsContainer {
     display: flex;
-    margin-top: 50px;
     justify-content: center;
     width: 100%;
     position: relative;
@@ -48,8 +47,5 @@
     .pagination {
         left: 50%;
         transform: translateX(-50%) translateY(100%);
-
-        & a {
-        }
     }
 }

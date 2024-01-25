@@ -4,8 +4,9 @@ import { PetsState } from '../PetsState';
 
 const initialState: PetsState = {
     petsListing: [],
-    isLoading: false,
+    isLoading: true,
     errMessage: '',
+    total: 0,
 };
 
 export const PetsReducer = (state: PetsState = initialState, action: PetsAction): PetsState => {
@@ -13,7 +14,7 @@ export const PetsReducer = (state: PetsState = initialState, action: PetsAction)
         case PetsActionType.REQUEST_PETS:
             return { ...state, isLoading: true };
         case PetsActionType.RECEIVE_PETS:
-            return { ...state, isLoading: false, petsListing: action.petsListing };
+            return { ...state, isLoading: false, petsListing: action.petsListing, total: action.total };
         case PetsActionType.FETCH_PETS_ERROR:
             return { ...state, isLoading: false, errMessage: action.errMsg };
         default:

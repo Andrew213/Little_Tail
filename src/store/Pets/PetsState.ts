@@ -4,4 +4,5 @@ export interface PetsState {
     petsListing: PetT[];
     isLoading: boolean;
     errMessage: string;
+    total: number;
 }

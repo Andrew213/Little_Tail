@@ -3,17 +3,16 @@ import { getTodayAction } from '../interfaces';
 import { TodayState } from '../TodayState';
 import { TodayActionTypes } from './action-types';
 
-type TODAY_POST_DATA = {
+export type TODAY_POST_DATA = {
     petId: string;
     therapyId: string;
-    dateTime: number;
+    dateTime: Date;
 };
 
 export const createToday = (data: TODAY_POST_DATA) => {
     return async (dispatch: ThunkDispatch<TodayState, void, getTodayAction>) => {
         dispatch({
             type: TodayActionTypes.REQUEST_CREATE_TODAY,
-            isLoading: false,
         });
 
         const accessToken = localStorage.getItem('access_token');
@@ -37,6 +36,7 @@ export const createToday = (data: TODAY_POST_DATA) => {
             return await res.json();
         } catch (err) {
             dispatch({ type: TodayActionTypes.FETCH_CREATE_TODAY_ERROR, isLoading: false, errMsg: err });
+            return err;
         }
     };
 };

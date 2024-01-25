@@ -7,7 +7,6 @@ interface RequestTodayI {
 
 interface RequestCreateTodayI {
     type: TodayActionTypes.REQUEST_CREATE_TODAY;
-    isLoading: boolean;
 }
 
 interface ReceiveTodayI {

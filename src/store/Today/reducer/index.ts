@@ -3,7 +3,7 @@ import { getTodayAction } from '../interfaces';
 import { TodayState } from '../TodayState';
 
 const InitialState: TodayState = {
-    isLoading: false,
+    isLoading: true,
     errMsg: '',
     todayListing: [],
     createLoading: false,
@@ -24,7 +24,7 @@ export const TodayReducer = (state: TodayState = InitialState, action: getTodayA
         case TodayActionTypes.FETCH_CREATE_TODAY_ERROR:
             return { ...state, errMsg: action.errMsg, createLoading: action.isLoading };
         case TodayActionTypes.REQUEST_CREATE_TODAY:
-            return { ...state, createLoading: action.isLoading };
+            return { ...state, createLoading: true };
         default:
             return state;
     }

@@ -1,4 +1,6 @@
-.today {
+.pets {
+    height: 70vh;
+    width: 100%;
     margin-top: 50px;
     &__createBtn {
         background-color: #7347c1;
@@ -10,5 +12,10 @@
             fill: #fff;
         }
         position: fixed;
+    }
+    &__list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }

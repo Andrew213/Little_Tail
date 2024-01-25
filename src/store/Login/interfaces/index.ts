@@ -42,6 +42,10 @@ export interface errorSignUpI {
     errMsg: string;
 }
 
+export interface logoutI {
+    type: LoginActionType.LOGOUT;
+}
+
 export type LoginAction =
     | requestLoginI
     | receiveLoginI
@@ -51,4 +55,5 @@ export type LoginAction =
     | INIT_SESSION_ERROR_I
     | requestSignUpI
     | receiveSignUpI
-    | errorSignUpI;
+    | errorSignUpI
+    | logoutI;
