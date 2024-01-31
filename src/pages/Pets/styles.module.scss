@@ -1,16 +1,16 @@
 .petsContainer {
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
     width: 100%;
     position: relative;
-    min-height: 310px;
+    // min-height: 310px;
 }
 
 .pagination {
     display: flex;
     position: absolute;
-    bottom: 0;
-    transform: translateY(150%);
+    right: 0;
+    top: 0;
     align-items: center;
     & a {
         background-color: #7347c1;

@@ -3,10 +3,11 @@ const path = require('path');
 const webpack = require('webpack');
 const tsImportPluginFactory = require('ts-import-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require(`html-webpack-plugin`);
+const HotModuleReplacementPlugin = require(`html-webpack-plugin`);
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
 const CssMinimizerPlugin = require(`css-minimizer-webpack-plugin`);
 const TerserPlugin = require('terser-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'prod';
 
@@ -58,9 +59,9 @@ const cssLoaders = extra => {
 };
 
 const plugins = () => {
-    const pluginsList = [
+    return [
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
+        new HotModuleReplacementPlugin({
             filename: 'index.html',
             template: 'public/index.html',
             favicon: 'public/favicon.ico',
@@ -81,13 +82,12 @@ const plugins = () => {
                 minifyURLs: true,
             },
         }),
+        !isProductionMode && new ReactRefreshWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: 'static/css/[name].[fullhash:8].css',
             ignoreOrder: true,
         }),
-    ];
-
-    return pluginsList;
+    ].filter(Boolean);
 };
 module.exports = {
     entry: './src/index.tsx',

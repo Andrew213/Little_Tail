@@ -23,13 +23,34 @@ class TodayController {
 
     async getToaday(req, res) {
         try {
-            const { limit, pageNumber } = req.query;
+            const { limit, pageNumber, query } = req.query;
+            const total = await TodaySchema.countDocuments();
+
+            if (query) {
+                const skip = (+pageNumber - 1) * +limit;
+                const therapiesList = await TodaySchema.find({
+                    ['pet.name']: {
+                        $regex: query,
+                        $options: 'i',
+                    },
+                })
+                    .limit(+limit)
+                    .skip(skip);
+                const totalSearched = await TodaySchema.countDocuments({
+                    name: {
+                        $regex: query,
+                        $options: 'i',
+                    },
+                });
+
+                return res.json({ therapiesList, total: totalSearched });
+            }
 
             const skip = (+pageNumber - 1) * +limit;
 
             const therapiesList = await TodaySchema.find({}).limit(+limit).skip(skip);
 
-            return res.json(therapiesList);
+            return res.json({ therapiesList, total });
         } catch (error) {
             console.log(`error `, error);
             res.send({ message: 'server error', error });

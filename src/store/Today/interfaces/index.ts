@@ -12,6 +12,7 @@ interface RequestCreateTodayI {
 interface ReceiveTodayI {
     type: TodayActionTypes.RECEIVE_TODAY;
     todayList: TodayType[];
+    total: number;
 }
 
 interface ReceiveCreateTodayI {

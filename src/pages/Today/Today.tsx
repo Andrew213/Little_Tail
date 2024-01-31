@@ -9,22 +9,24 @@ import { Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import AddTherapyModal from './components/AddTherapyModal/AddTherapyModal';
 import dayjs from 'dayjs';
+import Toolbar from '@/components/Toolbar/Toolabar';
+import { useSearchParams } from 'react-router-dom';
 
 const Today: React.FC = () => {
     const { GetToday } = useAction();
     const [reload, setReload] = useState(false);
-
+    const [searchParams] = useSearchParams();
     const {
         Today: { isLoading, todayListing, errMsg },
     } = useTypedSelector(state => state);
-
+    console.log(`todayListing `, todayListing);
     React.useEffect(() => {
-        GetToday({ pageNumber: 1 });
-    }, [reload]);
+        GetToday(Object.fromEntries(searchParams.entries()));
+    }, [searchParams, reload]);
 
     React.useEffect(() => {
         if (errMsg) {
-            void message.error(errMsg);
+            void message.error(errMsg.toString());
         }
     }, [errMsg]);
 
@@ -36,14 +38,18 @@ const Today: React.FC = () => {
 
     return (
         <div className={styles.today}>
-            <Button
-                onClick={() => setIsModalOpen(true)}
-                type="primary"
-                className={styles.today__createBtn}
-                icon={<PlusOutlined />}
-            >
-                Сделать запись
-            </Button>
+            <div className={styles.today__controls}>
+                <Button
+                    onClick={() => setIsModalOpen(true)}
+                    type="primary"
+                    className={styles.today__createBtn}
+                    icon={<PlusOutlined />}
+                >
+                    Сделать запись
+                </Button>
+                <Toolbar />
+            </div>
+
             <AddTherapyModal
                 setTodayListReload={setReload}
                 open={isModalOpen}

@@ -11,6 +11,7 @@ const compiler = webpack(configFactory);
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 const devServer = new WebpackDevServer(compiler, {
+    port: DEFAULT_PORT,
     hot: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     historyApiFallback: true,

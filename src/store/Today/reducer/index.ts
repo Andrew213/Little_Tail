@@ -9,6 +9,7 @@ const InitialState: TodayState = {
     createLoading: false,
     createErrorMsg: '',
     createSuccessMsg: '',
+    total: 0,
 };
 
 export const TodayReducer = (state: TodayState = InitialState, action: getTodayAction): TodayState => {
@@ -17,7 +18,7 @@ export const TodayReducer = (state: TodayState = InitialState, action: getTodayA
             return { ...state, isLoading: true };
 
         case TodayActionTypes.RECEIVE_TODAY:
-            return { ...state, isLoading: false, todayListing: action.todayList };
+            return { ...state, isLoading: false, todayListing: action.todayList, total: action.total };
 
         case TodayActionTypes.FETCH_TODAY_ERROR:
             return { ...state, isLoading: false, errMsg: action.errMsg };

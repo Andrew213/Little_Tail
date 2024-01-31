@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { Dispatch, SetStateAction } from 'react';
-import PetModal from '@/components/Pets/components/PetModal/PetModal';
+import PetModal from '@/pages/Pets/components/PetModal/PetModal';
 import styles from './styles.module.scss';
 import { tagType } from '../SpecSelect/SpecSelect';
 import { specT } from '@/types/PetType';
@@ -42,7 +42,6 @@ const PetCard: React.FC<PetCardI> = ({
 
     const deletePet = async () => {
         const response = await DeletePet(id);
-        console.log(`response `, response);
         if (response instanceof Error) {
             void message.error('Произошла ошибка');
         } else {
