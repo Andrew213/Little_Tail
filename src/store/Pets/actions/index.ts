@@ -7,21 +7,31 @@ import { PetsState } from '../PetsState';
 import { receivePetsAC } from './action-creators';
 import { PetsActionType } from './action-types';
 
-export const getAnimals = (props?: { pageNumber?: number; allData?: 1 | 0 }) => {
+export const getAnimals = (props?: { page?: number; allData?: 1 | 0; query?: string }) => {
     return async (dispatch: ThunkDispatch<PetsState, void, PetsAction | LoginAction>) => {
-        dispatch({
-            type: PetsActionType.REQUEST_PETS,
-        });
+        if (!props.query) {
+            dispatch({
+                type: PetsActionType.REQUEST_PETS,
+            });
+        }
 
         try {
             const accessToken = localStorage.getItem('access_token');
 
-            const res = await fetch(
-                `https://littletail.onrender.com/api/pets?limit=5&pageNumber=${props.pageNumber}&allData=${props.allData}`,
-                {
-                    headers: { Authorization: `Bearer ${accessToken}` },
-                }
-            );
+            const url = new URL('https://littletail.onrender.com/api/pets');
+
+            if (props?.page) {
+                url.searchParams.append('page', `${props.page}`);
+            }
+            if (props?.query) {
+                url.searchParams.append('query', props.query);
+            }
+
+            const res = await fetch(url.toString(), {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                },
+            });
 
             const { pets, total } = await res.json();
 

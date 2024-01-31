@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import PetModal from '@/components/Pets/components/PetModal/PetModal';
+import PetModal from '@/pages/Pets/components/PetModal/PetModal';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import styles from './styles.module.scss';

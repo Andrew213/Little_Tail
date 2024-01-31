@@ -7,4 +7,5 @@ export interface TodayState {
     createErrorMsg: string;
     isLoading: boolean;
     errMsg: string;
+    total: number;
 }

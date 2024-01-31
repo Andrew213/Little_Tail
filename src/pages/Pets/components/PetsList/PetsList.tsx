@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import useAction from '@/hooks/useAction';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Loader from '@/lib/Loader/Loader';
-import styles from './styles.module.scss';
 import { PlusOutlined } from '@ant-design/icons';
 import PetCard from '../PetCard/PetCard';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import AddPetModal from '../AddPetModal/AddPetModal';
+import Toolbar from '@/components/Toolbar/Toolabar';
+import styles from './styles.module.scss';
+import { useSearchParams } from 'react-router-dom';
 
 interface PetsListProps {
     pageNum?: number;
@@ -15,7 +17,7 @@ interface PetsListProps {
 const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [reload, setReload] = useState<boolean>(false);
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const {
         Pets: { isLoading, petsListing },
     } = useTypedSelector(state => state);
@@ -23,8 +25,10 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
     const { GetAnimals } = useAction();
 
     React.useEffect(() => {
-        GetAnimals({ pageNumber: pageNum });
-    }, [reload, pageNum]);
+        GetAnimals(Object.fromEntries(searchParams.entries()));
+    }, [searchParams, reload]);
+
+    const toolbar = useMemo(() => <Toolbar />, []);
 
     if (isLoading) {
         return <Loader className="loader" />;
@@ -33,14 +37,18 @@ const PetsList: React.FC<PetsListProps> = ({ pageNum }) => {
     return (
         <>
             <section className={styles.pets}>
-                <Button
-                    onClick={() => setIsModalOpen(true)}
-                    icon={<PlusOutlined />}
-                    type="primary"
-                    className={styles.pets__createBtn}
-                >
-                    Добавить питомца
-                </Button>
+                <div className={styles.pets__controls}>
+                    <Button
+                        onClick={() => setIsModalOpen(true)}
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        className={styles.pets__createBtn}
+                    >
+                        Добавить питомца
+                    </Button>
+                    {toolbar}
+                </div>
+
                 <AddPetModal
                     onCancel={() => setIsModalOpen(false)}
                     setPetsListReload={setReload}

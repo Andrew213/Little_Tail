@@ -20,8 +20,28 @@ class PetsController {
 
     async getPets(req, res) {
         try {
-            const { limit, pageNumber, allData } = req.query;
+            const { limit, pageNumber, allData, query } = req.query;
             const total = await Pets.countDocuments();
+
+            if (query) {
+                const skip = (+pageNumber - 1) * +limit;
+                const pets = await Pets.find({
+                    name: {
+                        $regex: query,
+                        $options: 'i',
+                    },
+                })
+                    .limit(+limit)
+                    .skip(skip);
+                const totalSearched = await Pets.countDocuments({
+                    name: {
+                        $regex: query,
+                        $options: 'i',
+                    },
+                });
+
+                return res.json({ pets, total: totalSearched });
+            }
 
             if (!+allData) {
                 const skip = (+pageNumber - 1) * +limit;
