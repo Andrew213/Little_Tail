@@ -5,7 +5,6 @@ import Specs from '../models/Specs.js';
 
 const router = express.Router();
 
-// eslint-disable-next-line @typescript-eslint/require-await
 router.post('/spec', async (req, res) => {
     try {
         const specs = req.body;
